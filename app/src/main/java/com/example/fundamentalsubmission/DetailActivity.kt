@@ -7,10 +7,6 @@ import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
 
-    companion object{
-        const val EXTRA_USER = "extra_user"
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -22,11 +18,15 @@ class DetailActivity : AppCompatActivity() {
         binding.imgDetail.setImageResource(user.photo!!)
         binding.tvUserName.text = user.name
         binding.tvUserUname.text = "@${user.username}"
-        binding.tvFollowers.text = "${user.followers} followers"
-        binding.tvFollowing.text = "${user.following} following"
+        binding.tvFollowers.text = "${user.followers} followers |"
+        binding.tvFollowing.text = "${user.following} following |"
         binding.tvRepositories.text = "${user.repositories} repositories"
         binding.tvUserCompany.text = user.company
         binding.tvLocation.text = user.location
 
+    }
+
+    companion object{
+        const val EXTRA_USER = "extra_user"
     }
 }

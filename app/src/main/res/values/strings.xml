@@ -1,9 +1,15 @@
 <resources>
     <string name="app_name">FundamentalSubmission</string>
-    <string name="user_name">Nama User</string>
+    <string name="user_name">User Name</string>
     <string name="user_username">User username</string>
     <string name="user_company">User Company</string>
     <string name="splash_icon">Splash Icon</string>
+    <string name="user_image">User Image</string>
+    <string name="followers_icon">followers_icon</string>
+    <string name="user_location">User Location</string>
+    <string name="user_repo">User Repo</string>
+    <string name="user_following">User Following</string>
+    <string name="user_followers">User Followers</string>
 
     <string-array name="username">
         <item>JakeWharton</item>

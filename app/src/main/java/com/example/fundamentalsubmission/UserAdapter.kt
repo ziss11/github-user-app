@@ -5,7 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.appcompat.view.menu.ActionMenuItemView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.fundamentalsubmission.databinding.ItemUserBinding
+import com.squareup.picasso.Picasso
 
 class UserAdapter internal constructor(private val context: Context) : BaseAdapter(){
     internal var users = arrayListOf<GitHubUser>()
@@ -31,13 +35,13 @@ class UserAdapter internal constructor(private val context: Context) : BaseAdapt
         return itemView
     }
 
-    private inner class ViewHolder internal constructor(view: View){
+    private inner class ViewHolder constructor(view: View){
         private val binding = ItemUserBinding.bind(view)
-        internal fun bind(user: GitHubUser){
+         fun bind(user: GitHubUser){
             binding.tvUserName.text = user.name
             binding.tvUserUname.text = user.username
             binding.tvUserCompany.text = "@${user.company}"
-            binding.userPhoto.setImageResource(user.photo!!)
+            Glide.with(context).load(user.photo).apply(RequestOptions().override(90,90)).into(binding.userPhoto)
         }
 
     }

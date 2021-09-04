@@ -11,9 +11,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        val duration:Long = 3000
+
         Handler(Looper.getMainLooper()).postDelayed({
             val moveIntent = Intent(this, MainActivity::class.java)
             startActivity(moveIntent)
-        }, 3000)
+        }, duration)
     }
 }

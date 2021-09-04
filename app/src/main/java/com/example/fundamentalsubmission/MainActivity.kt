@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var dataFollowing: Array<String>
     private lateinit var dataRepositories: Array<String>
 
-    private var users = arrayListOf<GitHubUser>()
+    private val users = arrayListOf<GitHubUser>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,19 +36,8 @@ class MainActivity : AppCompatActivity() {
         addItem()
 
         binding.rvList.onItemClickListener = AdapterView.OnItemClickListener{_,_,position,_ ->
-            val user = GitHubUser(
-                dataUname[position],
-                dataName[position],
-                dataCompany[position],
-                dataPhoto.getResourceId(position, -1),
-                dataLocation[position],
-                dataFollowers[position],
-                dataFollowing[position],
-                dataRepositories[position]
-            )
-
             val moveIntent = Intent(this, DetailActivity::class.java)
-            moveIntent.putExtra(DetailActivity.EXTRA_USER,user)
+            moveIntent.putExtra(DetailActivity.EXTRA_USER,users[position])
             startActivity(moveIntent)
         }
 
