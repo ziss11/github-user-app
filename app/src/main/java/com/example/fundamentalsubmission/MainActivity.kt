@@ -4,13 +4,11 @@ import android.content.Intent
 import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.AdapterView
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-
-    private lateinit var adapter: UserAdapter
 
     private lateinit var dataName: Array<String>
     private lateinit var dataUname: Array<String>
@@ -29,18 +27,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = "GitHub User's"
 
-        adapter = UserAdapter(this)
-        binding.rvList.adapter = adapter
+        binding.rvList.setHasFixedSize(true)
 
         prepare()
-        addItem()
-
-        binding.rvList.onItemClickListener = AdapterView.OnItemClickListener{_,_,position,_ ->
-            val moveIntent = Intent(this, DetailActivity::class.java)
-            moveIntent.putExtra(DetailActivity.EXTRA_USER,users[position])
-            startActivity(moveIntent)
-        }
-
+        showRecyclerView()
     }
 
     private fun prepare() {
@@ -53,9 +43,9 @@ class MainActivity : AppCompatActivity() {
         dataFollowing = resources.getStringArray(R.array.following)
         dataRepositories = resources.getStringArray(R.array.repository)
     }
-
-    private fun addItem() {
-        for (position in dataName.indices) {
+    private fun showRecyclerView() {
+        binding.rvList.layoutManager = LinearLayoutManager(this)
+        for(position in dataName.indices){
             val user = GitHubUser(
                 dataUname[position],
                 dataName[position],
@@ -66,9 +56,23 @@ class MainActivity : AppCompatActivity() {
                 dataFollowing[position],
                 dataRepositories[position]
             )
+
             users.add(user)
         }
-        adapter.users = users
-
+        val userAdapter = UserAdapter(users)
+        binding.rvList.adapter = userAdapter
+        userAdapter.setOnItemCallback(object : UserAdapter.OnItemClickCallback{
+            override fun onItemClicked(user: GitHubUser) {
+                gotoDetailActivity(user)
+            }
+        })
     }
+
+    private fun gotoDetailActivity(user: GitHubUser) {
+        val moveIntent = Intent(this, DetailActivity::class.java)
+        moveIntent.putExtra(DetailActivity.EXTRA_USER, user)
+        startActivity(moveIntent)
+    }
+
+
 }
