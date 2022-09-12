@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:padding="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_photo"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:contentDescription="@string/user_image"/>
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:contentDescription="@string/user_image"
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tv_user_name"
+        style="@style/TextAppearance.MdcTypographyStyles.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/user_photo"
         android:text="@string/user_name"
-        android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_user_uname"
+        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="2sp"
         android:layout_below="@+id/tv_user_name"
+        android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/user_photo"
         android:text="@string/user_username"
-        android:textSize="14sp"/>
+        android:textColor="@color/grey" />
 
     <TextView
         android:id="@+id/tv_user_company"
+        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="16dp"
         android:layout_below="@+id/tv_user_uname"
+        android:layout_marginStart="16dp"
         android:layout_toEndOf="@+id/user_photo"
         android:text="@string/user_company"
-        android:textSize="14sp"/>
+        android:textColor="@color/grey" />
 
 </RelativeLayout>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
     tools:context=".pages.DetailActivity">
@@ -12,32 +12,32 @@
         android:id="@+id/img_detail"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="30dp"
         android:layout_gravity="center"
+        android:layout_marginTop="30dp"
         android:contentDescription="@string/user_image"
-        app:civ_border_width="2dp"
         app:civ_border_color="@color/grey"
-        tools:src="@tools:sample/avatars"/>
+        app:civ_border_width="2dp"
+        tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tv_user_name"
+        style="@style/TextAppearance.MdcTypographyStyles.Headline5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_gravity="center"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:text="@string/user_name"/>
+        android:layout_marginTop="16dp"
+        android:text="@string/user_name"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/tv_user_uname"
+        style="@style/TextAppearance.MdcTypographyStyles.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:layout_gravity="center"
-        android:textSize="12sp"
-        android:textColor="@color/grey"
-        android:text="@string/user_username"/>
+        android:layout_marginTop="2dp"
+        android:text="@string/user_username"
+        android:textColor="@color/grey" />
 
     <RelativeLayout
         android:id="@+id/rl_row"
@@ -47,31 +47,31 @@
 
         <TextView
             android:id="@+id/tv_followers"
+            style="@style/TextAppearance.MdcTypographyStyles.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="5dp"
-            android:text="@string/user_followers"
-            android:textSize="14sp" />
+            android:text="@string/user_followers" />
 
         <TextView
             android:id="@+id/tv_following"
+            style="@style/TextAppearance.MdcTypographyStyles.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="5dp"
             android:layout_toEndOf="@+id/tv_followers"
-            android:text="@string/user_following"
-            android:textSize="14sp" />
+            android:text="@string/user_following" />
 
         <TextView
             android:id="@+id/tv_repositories"
+            style="@style/TextAppearance.MdcTypographyStyles.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_toEndOf="@+id/tv_following"
-            android:text="@string/user_repo"
-            android:textSize="14sp" />
+            android:text="@string/user_repo" />
 
         <ImageView
             android:id="@+id/company_icon"
@@ -85,14 +85,13 @@
 
         <TextView
             android:id="@+id/tv_user_company"
+            style="@style/TextAppearance.MdcTypographyStyles.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_following"
             android:layout_marginTop="16dp"
             android:layout_toEndOf="@+id/company_icon"
-            android:text="@string/user_company"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:text="@string/user_company" />
 
         <ImageView
             android:id="@+id/location_icon"
@@ -106,13 +105,12 @@
 
         <TextView
             android:id="@+id/tv_location"
+            style="@style/TextAppearance.MdcTypographyStyles.Body2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_user_company"
             android:layout_toEndOf="@+id/location_icon"
-            android:text="@string/user_location"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:text="@string/user_location"/>
 
     </RelativeLayout>
 </LinearLayout>
