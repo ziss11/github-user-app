@@ -5,7 +5,10 @@ import android.content.res.TypedArray
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fundamentalsubmission.adapters.UserAdapter
 import com.example.fundamentalsubmission.databinding.ActivityMainBinding
+import com.example.fundamentalsubmission.models.GitHubUser
+import com.example.fundamentalsubmission.pages.DetailActivity
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

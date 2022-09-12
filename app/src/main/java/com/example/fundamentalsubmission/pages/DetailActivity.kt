@@ -1,7 +1,8 @@
-package com.example.fundamentalsubmission
+package com.example.fundamentalsubmission.pages
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.fundamentalsubmission.models.GitHubUser
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
 
 class DetailActivity : AppCompatActivity() {

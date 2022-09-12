@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission
+package com.example.fundamentalsubmission.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

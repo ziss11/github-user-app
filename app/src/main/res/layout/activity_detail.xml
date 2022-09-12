@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".DetailActivity">
+    tools:context=".pages.DetailActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_detail"

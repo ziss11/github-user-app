@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FundamentalSubmission">
         <activity
-            android:name=".DetailActivity"
+            android:name=".pages.DetailActivity"
             android:exported="true"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".pages.SplashActivity"
             android:theme="@style/Theme.MaterialComponents.NoActionBar"
             android:exported="true">
             <intent-filter>
