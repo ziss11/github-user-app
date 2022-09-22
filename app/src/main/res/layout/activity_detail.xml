@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".pages.DetailActivity">
+    tools:context=".presentation.ui.DetailActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_detail"

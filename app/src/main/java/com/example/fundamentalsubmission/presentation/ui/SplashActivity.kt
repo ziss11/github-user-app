@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission.pages
+package com.example.fundamentalsubmission.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle

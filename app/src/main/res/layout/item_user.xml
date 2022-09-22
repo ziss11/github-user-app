@@ -7,42 +7,21 @@
     android:padding="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_photo"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:id="@+id/user_avatar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/user_image"
         tools:src="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tv_user_name"
+        android:id="@+id/tv_user_uname"
         style="@style/TextAppearance.MdcTypographyStyles.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/user_photo"
+        android:layout_marginStart="24dp"
+        android:layout_centerVertical="true"
+        android:layout_toEndOf="@+id/user_avatar"
         android:text="@string/user_name"
         android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tv_user_uname"
-        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_user_name"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/user_photo"
-        android:text="@string/user_username"
-        android:textColor="@color/grey" />
-
-    <TextView
-        android:id="@+id/tv_user_company"
-        style="@style/TextAppearance.MdcTypographyStyles.Subtitle2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_user_uname"
-        android:layout_marginStart="16dp"
-        android:layout_toEndOf="@+id/user_photo"
-        android:text="@string/user_company"
-        android:textColor="@color/grey" />
 
 </RelativeLayout>

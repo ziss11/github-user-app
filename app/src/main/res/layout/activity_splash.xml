@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context=".pages.SplashActivity">
+    tools:context=".presentation.ui.SplashActivity">
 
     <ImageView
         android:id="@+id/logo"

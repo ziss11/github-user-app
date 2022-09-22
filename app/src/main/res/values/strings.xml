@@ -13,4 +13,7 @@
     <string name="followers_plural">followers |</string>
     <string name="followings_plural">followings |</string>
     <string name="repositories_plural">repositories</string>
+    <string name="search_users">Search other users…</string>
+    <string name="search_message">Type query to search user</string>
+    <string name="user_not_found">User not Found!!!</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission.adapters
+package com.example.fundamentalsubmission.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fundamentalsubmission.databinding.ItemUserBinding
-import com.example.fundamentalsubmission.models.User
+import com.example.fundamentalsubmission.data.models.UserModel
 
-class UserAdapter(private val listUser: ArrayList<User>) :
+class UserAdapter(private val listUser: List<UserModel>) :
     RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
     private lateinit var onItemClickCallback: OnItemClickCallback
 
@@ -26,12 +26,10 @@ class UserAdapter(private val listUser: ArrayList<User>) :
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
         val user = listUser[position]
 
-        Glide.with(holder.itemView.context).load(user.photo)
-            .apply(RequestOptions().override(90, 90)).into(holder.binding.userPhoto)
+        Glide.with(holder.itemView.context).load(user.avatar)
+            .apply(RequestOptions().override(50, 50)).into(holder.binding.userAvatar)
 
-        holder.binding.tvUserName.text = user.name
         holder.binding.tvUserUname.text = user.username
-        holder.binding.tvUserCompany.text = user.company
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listUser[position])
         }
@@ -42,7 +40,7 @@ class UserAdapter(private val listUser: ArrayList<User>) :
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(user: User)
+        fun onItemClicked(user: UserModel)
     }
 
 }
