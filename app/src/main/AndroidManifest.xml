@@ -12,16 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FundamentalSubmission">
         <activity
-            android:name=".presentation.ui.DetailActivity"
+            android:name=".presentation.ui.activity.DetailActivity"
             android:exported="true"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".MainActivity"
             android:exported="true" />
         <activity
-            android:name=".presentation.ui.SplashActivity"
+            android:name=".presentation.ui.activity.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.MaterialComponents.NoActionBar">
+            android:theme="@style/Theme.FundamentalSubmission.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

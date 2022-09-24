@@ -1,11 +1,7 @@
 package com.example.fundamentalsubmission
 
-import android.app.SearchManager
-import android.content.Context
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -14,8 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
 import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 import com.example.fundamentalsubmission.data.models.UserModel
-import com.example.fundamentalsubmission.presentation.ui.DetailActivity
+import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,62 +22,66 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = "GitHub Users"
+        supportActionBar?.title = getString(R.string.search_users)
 
-        viewModel.isLoading.observe(this) { showLoading(it) }
+        subscribe()
 
         val layoutManager = LinearLayoutManager(this)
-        binding.rvList.layoutManager = layoutManager
-
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+
+        binding.rvList.layoutManager = layoutManager
         binding.rvList.addItemDecoration(itemDecoration)
 
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
-        binding.svSearch.setActivated(true)
-        binding.svSearch.onActionViewExpanded()
-        binding.svSearch.setSearchableInfo(searchManager.getSearchableInfo(componentName))
         binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            private val coroutineScope = CoroutineScope(Dispatchers.Main)
+            private var searchJob: Job? = null
+
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText != null) {
-                    viewModel.searchUser(newText)
-                    viewModel.searchedUsers.observe(this@MainActivity) {
-                        if (it != null) {
-                            setUserData(it)
-                            showMessage(false, "")
+                searchJob?.cancel()
+                searchJob = coroutineScope.launch {
+                    newText.let {
+                        delay(500)
+                        if (newText != null && newText.isNotEmpty()) {
+                            viewModel.searchUser(newText)
                         } else {
-                            showMessage(true, getString(R.string.user_not_found))
+                            binding.svSearch.clearFocus()
+                            showMessage(true)
                         }
                     }
-                } else {
-                    showMessage(true)
-                    binding.tvMessage.visibility = View.VISIBLE
-                    binding.rvList.visibility = View.INVISIBLE
                 }
                 return true
             }
         })
     }
 
-    private fun setUserData(user: List<UserModel>) {
-        val userAdapter = UserAdapter(user)
+    private fun subscribe() {
+        viewModel.isLoading.observe(this) { showLoading(it) }
+        viewModel.searchedUsers.observe(this) {
+            if (it.isNotEmpty() && it != null ) {
+                setUserData(it)
+                showMessage(false)
+            } else {
+                showMessage(true)
+            }
+        }
+    }
+
+    private fun setUserData(users: List<UserModel>?) {
+        val userAdapter = UserAdapter(users!!)
         binding.rvList.adapter = userAdapter
         userAdapter.setOnItemCallback(object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: UserModel) {
-                gotoDetailActivity(user)
+                DetailActivity.start(this@MainActivity, user.username!!)
             }
         })
+
     }
 
-    private fun showMessage(
-        isShowMessage: Boolean,
-        text: String = getString(R.string.search_message)
-    ) {
-        binding.tvMessage.text = text
-
+    private fun showMessage(isShowMessage: Boolean) {
         if (isShowMessage) {
             binding.tvMessage.visibility = View.VISIBLE
             binding.rvList.visibility = View.INVISIBLE
@@ -94,14 +95,11 @@ class MainActivity : AppCompatActivity() {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
             binding.tvMessage.visibility = View.INVISIBLE
+            binding.rvList.visibility = View.INVISIBLE
         } else {
             binding.progressBar.visibility = View.INVISIBLE
             binding.tvMessage.visibility = View.VISIBLE
+            binding.rvList.visibility = View.VISIBLE
         }
-    }
-
-    private fun gotoDetailActivity(user: UserModel) {
-        val moveIntent = Intent(this, DetailActivity::class.java)
-        startActivity(moveIntent)
     }
 }

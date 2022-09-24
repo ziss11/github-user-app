@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission.presentation.ui
+package com.example.fundamentalsubmission.presentation.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
