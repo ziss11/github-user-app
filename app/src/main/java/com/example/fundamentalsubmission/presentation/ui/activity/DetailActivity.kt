@@ -8,7 +8,6 @@ import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
-import com.bumptech.glide.Glide
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
