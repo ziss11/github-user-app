@@ -1,6 +1,6 @@
 <resources >
     <!-- Base application theme. -->
-    <style name="Theme.FundamentalSubmission" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.GithubUser" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/lightBlack</item>
@@ -15,7 +15,7 @@
         <item name="android:fontFamily">@font/poppins</item>
     </style>
 
-    <style name="Theme.FundamentalSubmission.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.GithubUser.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/lightBlack</item>

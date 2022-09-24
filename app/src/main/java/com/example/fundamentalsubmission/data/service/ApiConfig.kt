@@ -15,14 +15,10 @@ class ApiConfig {
                 HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
             }
 
-            val client = OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor).build()
+            val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
 
-            val retrofit = Retrofit.Builder()
-                .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build()
+            val retrofit = Retrofit.Builder().baseUrl("https://api.github.com/")
+                .addConverterFactory(GsonConverterFactory.create()).client(client).build()
 
             return retrofit.create(ApiService::class.java)
         }

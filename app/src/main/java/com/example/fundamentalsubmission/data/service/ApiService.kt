@@ -6,7 +6,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
-    @Headers("Authorization: Bearer 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")
     @GET("search/users")
     fun searchUser(
         @Query("q") q: String

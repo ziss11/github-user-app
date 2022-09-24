@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
@@ -20,6 +21,7 @@ class DetailActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_USERNAME = "extra_username"
+
         @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tab_followers,
@@ -54,6 +56,14 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun subscribe() {
         viewModel.user.observe(this) {
             setUserData(it)
@@ -67,8 +77,9 @@ class DetailActivity : AppCompatActivity() {
 
         headerItem.tvUserName.text = user?.name
         headerItem.tvUserUname.text = user?.username
+        headerItem.tvRepositories.text = user?.publicRepos.toString()
         headerItem.tvFollowers.text = user?.followers.toString()
         headerItem.tvFollowings.text = user?.following.toString()
-        headerItem.tvBio.text = user?.bio
+        headerItem.tvBio.text = user?.bio ?: "-"
     }
 }

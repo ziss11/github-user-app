@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
     private fun subscribe() {
         viewModel.isLoading.observe(this) { showLoading(it) }
         viewModel.searchedUsers.observe(this) {
-            if (it.isNotEmpty() && it != null ) {
+            if (it.isNotEmpty() && it != null) {
                 setUserData(it)
                 showMessage(false)
             } else {

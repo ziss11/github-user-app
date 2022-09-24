@@ -10,7 +10,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel: ViewModel() {
+class DetailViewModel : ViewModel() {
     companion object {
         private const val TAG = "DetailActivity"
     }
@@ -50,12 +50,15 @@ class DetailViewModel: ViewModel() {
         })
     }
 
-    fun getUserFollowers(username: String){
+    fun getUserFollowers(username: String) {
         _isLoading.value = true
 
         val client = ApiConfig.getApiService().getUserFollowers(username)
         client.enqueue(object : Callback<List<UserModel>> {
-            override fun onResponse(call: Call<List<UserModel>>, response: Response<List<UserModel>>) {
+            override fun onResponse(
+                call: Call<List<UserModel>>,
+                response: Response<List<UserModel>>
+            ) {
                 _isLoading.value = false
 
                 val responseBody = response.body()
@@ -73,12 +76,15 @@ class DetailViewModel: ViewModel() {
         })
     }
 
-    fun getUserFollowings(username: String){
+    fun getUserFollowings(username: String) {
         _isLoading.value = true
 
         val client = ApiConfig.getApiService().getUserFollowing(username)
         client.enqueue(object : Callback<List<UserModel>> {
-            override fun onResponse(call: Call<List<UserModel>>, response: Response<List<UserModel>>) {
+            override fun onResponse(
+                call: Call<List<UserModel>>,
+                response: Response<List<UserModel>>
+            ) {
                 _isLoading.value = false
 
                 val responseBody = response.body()
