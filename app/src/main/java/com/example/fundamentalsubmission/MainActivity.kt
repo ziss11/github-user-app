@@ -26,46 +26,49 @@ class MainActivity : AppCompatActivity() {
 
         subscribe()
 
-        val layoutManager = LinearLayoutManager(this)
-        val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        val layout = LinearLayoutManager(this)
+        val itemDecoration = DividerItemDecoration(this, layout.orientation)
 
-        binding.rvList.layoutManager = layoutManager
-        binding.rvList.addItemDecoration(itemDecoration)
+        binding.apply {
+            rvList.layoutManager = layout
+            rvList.addItemDecoration(itemDecoration)
+            binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                private val coroutineScope = CoroutineScope(Dispatchers.Main)
+                private var searchJob: Job? = null
 
-        binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            private val coroutineScope = CoroutineScope(Dispatchers.Main)
-            private var searchJob: Job? = null
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
 
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                searchJob?.cancel()
-                searchJob = coroutineScope.launch {
-                    newText.let {
-                        delay(500)
-                        if (newText != null && newText.isNotEmpty()) {
-                            viewModel.searchUser(newText)
-                        } else {
-                            binding.svSearch.clearFocus()
-                            showMessage(true)
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    searchJob?.cancel()
+                    searchJob = coroutineScope.launch {
+                        newText.let {
+                            delay(500)
+                            if (newText != null && newText.isNotEmpty()) {
+                                viewModel.searchUser(newText)
+                            } else {
+                                binding.svSearch.clearFocus()
+                                showMessage(true)
+                            }
                         }
                     }
+                    return true
                 }
-                return true
-            }
-        })
+            })
+        }
     }
 
     private fun subscribe() {
-        viewModel.isLoading.observe(this) { showLoading(it) }
-        viewModel.searchedUsers.observe(this) {
-            if (it.isNotEmpty() && it != null) {
-                setUserData(it)
-                showMessage(false)
-            } else {
-                showMessage(true)
+        viewModel.apply {
+            isLoading.observe(this@MainActivity) { showLoading(it) }
+            searchedUsers.observe(this@MainActivity) {
+                if (it.isNotEmpty() && it != null) {
+                    setUserData(it)
+                    showMessage(false)
+                } else {
+                    showMessage(true)
+                }
             }
         }
     }
@@ -83,23 +86,31 @@ class MainActivity : AppCompatActivity() {
 
     private fun showMessage(isShowMessage: Boolean) {
         if (isShowMessage) {
-            binding.tvMessage.visibility = View.VISIBLE
-            binding.rvList.visibility = View.INVISIBLE
+            binding.apply {
+                tvMessage.visibility = View.VISIBLE
+                rvList.visibility = View.INVISIBLE
+            }
         } else {
-            binding.tvMessage.visibility = View.INVISIBLE
-            binding.rvList.visibility = View.VISIBLE
+            binding.apply {
+                tvMessage.visibility = View.INVISIBLE
+                rvList.visibility = View.VISIBLE
+            }
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
-            binding.progressBar.visibility = View.VISIBLE
-            binding.tvMessage.visibility = View.INVISIBLE
-            binding.rvList.visibility = View.INVISIBLE
+            binding.apply {
+                progressBar.visibility = View.VISIBLE
+                tvMessage.visibility = View.INVISIBLE
+                rvList.visibility = View.INVISIBLE
+            }
         } else {
-            binding.progressBar.visibility = View.INVISIBLE
-            binding.tvMessage.visibility = View.VISIBLE
-            binding.rvList.visibility = View.VISIBLE
+            binding.apply {
+                progressBar.visibility = View.INVISIBLE
+                tvMessage.visibility = View.VISIBLE
+                rvList.visibility = View.VISIBLE
+            }
         }
     }
 }

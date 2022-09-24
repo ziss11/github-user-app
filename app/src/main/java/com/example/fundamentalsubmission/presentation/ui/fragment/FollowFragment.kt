@@ -21,11 +21,6 @@ class FollowFragment : Fragment() {
 
     private val viewModel: DetailViewModel by viewModels()
 
-    companion object {
-        const val ARG_SECTION_NUMBER = "section_number"
-        const val EXTRA_USERNAME = "extra_username"
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -38,11 +33,13 @@ class FollowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         subscribe()
-        val layoutManager = LinearLayoutManager(requireActivity())
-        val itemDecoration = DividerItemDecoration(requireActivity(), layoutManager.orientation)
+        val layout = LinearLayoutManager(requireActivity())
+        val itemDecoration = DividerItemDecoration(requireActivity(), layout.orientation)
 
-        binding.rvUsers.layoutManager = layoutManager
-        binding.rvUsers.addItemDecoration(itemDecoration)
+        binding.rvUsers.apply {
+            layoutManager = layout
+            addItemDecoration(itemDecoration)
+        }
 
         val index = arguments?.getInt(ARG_SECTION_NUMBER, 0)
         val username = arguments?.getString(EXTRA_USERNAME)
@@ -70,27 +67,31 @@ class FollowFragment : Fragment() {
     }
 
     private fun subscribe() {
-        viewModel.isLoading.observe(requireActivity()) { showLoading(it) }
-        viewModel.followers.observe(requireActivity()) {
-            if (it != null && it.isNotEmpty()) {
-                setUserData(it)
-            } else {
-                showMessage(getString(R.string.fol_empty, "followers"))
+        viewModel.apply {
+            isLoading.observe(requireActivity()) { showLoading(it) }
+            followers.observe(requireActivity()) {
+                if (it != null && it.isNotEmpty()) {
+                    setUserData(it)
+                } else {
+                    showMessage(getString(R.string.fol_empty, "followers"))
+                }
             }
-        }
-        viewModel.followings.observe(requireActivity()) {
-            if (it != null && it.isNotEmpty()) {
-                setUserData(it)
-            } else {
-                showMessage(getString(R.string.fol_empty, "followings"))
+            followings.observe(requireActivity()) {
+                if (it != null && it.isNotEmpty()) {
+                    setUserData(it)
+                } else {
+                    showMessage(getString(R.string.fol_empty, "followings"))
+                }
             }
         }
     }
 
     private fun showMessage(text: String) {
-        binding.tvMessage.text = text
-        binding.tvMessage.visibility = View.VISIBLE
-        binding.rvUsers.visibility = View.INVISIBLE
+        binding.apply {
+            tvMessage.text = text
+            tvMessage.visibility = View.VISIBLE
+            rvUsers.visibility = View.INVISIBLE
+        }
     }
 
     private fun showLoading(isLoading: Boolean) {
@@ -99,5 +100,10 @@ class FollowFragment : Fragment() {
         } else {
             binding.progressBar.visibility = View.INVISIBLE
         }
+    }
+
+    companion object {
+        const val ARG_SECTION_NUMBER = "section_number"
+        const val EXTRA_USERNAME = "extra_username"
     }
 }

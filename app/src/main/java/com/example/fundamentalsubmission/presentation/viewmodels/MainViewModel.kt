@@ -12,10 +12,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainViewModel : ViewModel() {
-    companion object {
-        private const val TAG = "MainActivity"
-    }
-
     private val _searchedUsers = MutableLiveData<List<UserModel>>()
     val searchedUsers: LiveData<List<UserModel>> = _searchedUsers
 
@@ -46,5 +42,9 @@ class MainViewModel : ViewModel() {
                 Log.e(TAG, "onFailure: ${t.message}")
             }
         })
+    }
+
+    companion object {
+        private const val TAG = "MainActivity"
     }
 }

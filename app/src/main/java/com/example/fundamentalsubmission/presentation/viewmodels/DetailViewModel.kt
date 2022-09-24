@@ -11,10 +11,6 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class DetailViewModel : ViewModel() {
-    companion object {
-        private const val TAG = "DetailActivity"
-    }
-
     private val _user = MutableLiveData<UserModel?>()
     val user: LiveData<UserModel?> = _user
 
@@ -53,7 +49,7 @@ class DetailViewModel : ViewModel() {
     fun getUserFollowers(username: String) {
         _isLoading.value = true
 
-        val client = ApiConfig.getApiService().getUserFollowers(username)
+        val client = ApiConfig.getApiService().getUserFollow(username, "followers")
         client.enqueue(object : Callback<List<UserModel>> {
             override fun onResponse(
                 call: Call<List<UserModel>>,
@@ -79,7 +75,7 @@ class DetailViewModel : ViewModel() {
     fun getUserFollowings(username: String) {
         _isLoading.value = true
 
-        val client = ApiConfig.getApiService().getUserFollowing(username)
+        val client = ApiConfig.getApiService().getUserFollow(username, "following")
         client.enqueue(object : Callback<List<UserModel>> {
             override fun onResponse(
                 call: Call<List<UserModel>>,
@@ -100,5 +96,9 @@ class DetailViewModel : ViewModel() {
                 Log.e(TAG, "responseFailure: ${t.message}")
             }
         })
+    }
+
+    companion object {
+        private const val TAG = "DetailActivity"
     }
 }

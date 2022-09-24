@@ -14,28 +14,12 @@ import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
 import com.example.fundamentalsubmission.presentation.adapters.SectionsPageAdapter
 import com.example.fundamentalsubmission.presentation.viewmodels.DetailViewModel
+import com.example.fundamentalsubmission.utilities.loadImage
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: DetailViewModel by viewModels()
-
-    companion object {
-        const val EXTRA_USERNAME = "extra_username"
-
-        @StringRes
-        private val TAB_TITLES = intArrayOf(
-            R.string.tab_followers,
-            R.string.tab_following,
-        )
-
-        fun start(context: Context, username: String) {
-            Intent(context, DetailActivity::class.java).apply {
-                this.putExtra(EXTRA_USERNAME, username)
-                context.startActivity(this)
-            }
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,30 +58,48 @@ class DetailActivity : AppCompatActivity() {
     private fun setUserData(user: UserModel?) {
         val headerItem = binding.headerItem
 
-        Glide.with(this).load(user?.avatar).into(headerItem.ivUserAvatar)
+        headerItem.apply {
+            ivUserAvatar.loadImage(this@DetailActivity, user?.avatar)
+            tvUserName.text = user?.name
+            tvUserUname.text = user?.username
+            tvRepositories.text = user?.publicRepos.toString()
+            tvFollowers.text = user?.followers.toString()
+            tvFollowings.text = user?.following.toString()
 
-        headerItem.tvUserName.text = user?.name
-        headerItem.tvUserUname.text = user?.username
-        headerItem.tvRepositories.text = user?.publicRepos.toString()
-        headerItem.tvFollowers.text = user?.followers.toString()
-        headerItem.tvFollowings.text = user?.following.toString()
+            if (user?.bio == null) {
+                tvBio.visibility = View.GONE
+            } else {
+                tvBio.text = user.bio
+            }
 
-        if (user?.bio == null) {
-            headerItem.tvBio.visibility = View.GONE
-        } else {
-            headerItem.tvBio.text = user.bio
+            if (user?.location == null) {
+                location.visibility = View.GONE
+            } else {
+                tvLocation.text = user.location
+            }
+
+            if (user?.company == null) {
+                company.visibility = View.GONE
+            } else {
+                tvCompany.text = user.company
+            }
         }
+    }
 
-        if (user?.location == null) {
-            headerItem.location.visibility = View.GONE
-        } else {
-            headerItem.tvLocation.text = user.location
-        }
+    companion object {
+        const val EXTRA_USERNAME = "extra_username"
 
-        if (user?.company == null) {
-            headerItem.company.visibility = View.GONE
-        } else {
-            headerItem.tvCompany.text = user.company
+        @StringRes
+        private val TAB_TITLES = intArrayOf(
+            R.string.tab_followers,
+            R.string.tab_following,
+        )
+
+        fun start(context: Context, username: String) {
+            Intent(context, DetailActivity::class.java).apply {
+                this.putExtra(EXTRA_USERNAME, username)
+                context.startActivity(this)
+            }
         }
     }
 }
