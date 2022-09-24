@@ -47,9 +47,9 @@ class MainActivity : AppCompatActivity() {
                             delay(500)
                             if (newText != null && newText.isNotEmpty()) {
                                 viewModel.searchUser(newText)
-                            } else {
+                            } else{
                                 binding.svSearch.clearFocus()
-                                showMessage(true)
+                                viewModel.getUsers()
                             }
                         }
                     }
@@ -62,6 +62,14 @@ class MainActivity : AppCompatActivity() {
     private fun subscribe() {
         viewModel.apply {
             isLoading.observe(this@MainActivity) { showLoading(it) }
+            users.observe(this@MainActivity) {
+                if (it != null && it.isNotEmpty()) {
+                    setUserData(it)
+                    showMessage(false)
+                } else {
+                    showMessage(true)
+                }
+            }
             searchedUsers.observe(this@MainActivity) {
                 if (it.isNotEmpty() && it != null) {
                     setUserData(it)
@@ -81,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 DetailActivity.start(this@MainActivity, user.username!!)
             }
         })
-
     }
 
     private fun showMessage(isShowMessage: Boolean) {

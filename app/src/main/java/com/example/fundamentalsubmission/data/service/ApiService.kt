@@ -6,13 +6,16 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
+    @GET("users")
+    fun getUsers(): Call<List<UserModel>>
+
     @GET("search/users")
     fun searchUser(
         @Query("q") q: String
     ): Call<SearchUserResponse>
 
     @GET("users/{username}")
-    fun getUser(
+    fun searchUserByUsername(
         @Path("username") username: String
     ): Call<UserModel>
 

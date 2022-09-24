@@ -41,7 +41,6 @@ class UserAdapter(private val listUser: List<UserModel>) :
         return listUser.size
     }
 
-
     interface OnItemClickCallback {
         fun onItemClicked(user: UserModel)
     }

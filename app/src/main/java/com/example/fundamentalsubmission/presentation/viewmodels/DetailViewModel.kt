@@ -26,7 +26,7 @@ class DetailViewModel : ViewModel() {
     fun getUserDetail(username: String) {
         _isLoading.value = true
 
-        val client = ApiConfig.getApiService().getUser(username)
+        val client = ApiConfig.getApiService().searchUserByUsername(username)
         client.enqueue(object : Callback<UserModel> {
             override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
                 _isLoading.value = false
