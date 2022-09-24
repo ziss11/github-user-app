@@ -11,9 +11,9 @@
     <string name="user_repo">User Repo</string>
     <string name="user_following">User Following</string>
     <string name="user_followers">User Followers</string>
-    <string name="followers">Followers •</string>
+    <string name="followers">Followers</string>
     <string name="followings">Followings</string>
-    <string name="repositories">Repositories •</string>
+    <string name="repositories">Repositories</string>
     <string name="search_users">Github User\'s Search</string>
     <string name="search_hint">Type to search user…</string>
     <string name="user_not_found">User not Found!!!</string>

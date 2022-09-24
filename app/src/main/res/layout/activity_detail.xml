@@ -16,11 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
-        app:tabTextAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
         app:tabIndicatorColor="@color/white"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/white"
-        app:tabTextColor="@color/grey" />
+        app:tabTextAppearance="@style/TextAppearance.MdcTypographyStyles.Body1"
+        app:tabTextColor="@color/grey"
+        tools:ignore="SpeakableTextPresentCheck" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"

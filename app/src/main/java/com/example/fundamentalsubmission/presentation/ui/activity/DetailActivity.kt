@@ -5,6 +5,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import com.bumptech.glide.Glide
@@ -80,6 +81,23 @@ class DetailActivity : AppCompatActivity() {
         headerItem.tvRepositories.text = user?.publicRepos.toString()
         headerItem.tvFollowers.text = user?.followers.toString()
         headerItem.tvFollowings.text = user?.following.toString()
-        headerItem.tvBio.text = user?.bio ?: "-"
+
+        if (user?.bio == null) {
+            headerItem.tvBio.visibility = View.GONE
+        } else {
+            headerItem.tvBio.text = user.bio
+        }
+
+        if (user?.location == null) {
+            headerItem.location.visibility = View.GONE
+        } else {
+            headerItem.tvLocation.text = user.location
+        }
+
+        if (user?.company == null) {
+            headerItem.company.visibility = View.GONE
+        } else {
+            headerItem.tvCompany.text = user.company
+        }
     }
 }
