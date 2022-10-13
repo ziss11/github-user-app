@@ -13,12 +13,15 @@ import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
 import com.example.fundamentalsubmission.presentation.adapters.SectionsPageAdapter
 import com.example.fundamentalsubmission.presentation.viewmodels.DetailViewModel
+import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
+import com.example.fundamentalsubmission.utilities.ResultState
 import com.example.fundamentalsubmission.utilities.loadImage
 import com.google.android.material.tabs.TabLayoutMediator
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
-    private val viewModel: DetailViewModel by viewModels()
+    private lateinit var factory: ViewModelFactory
+    private val viewModel: DetailViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +31,15 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0F
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val username = intent.getStringExtra(EXTRA_USERNAME)
-        viewModel.getUserDetail(username!!)
+        factory = ViewModelFactory.getInstance()
 
-        subscribe()
+        val username = intent.getStringExtra(EXTRA_USERNAME)
+        viewModel.getDetailUser(username!!).observe(this) { result ->
+            if (result is ResultState.Success) {
+                setUserData(result.data)
+            }
+        }
+
         val sectionsPageAdapter = SectionsPageAdapter(this, username)
         binding.viewPager.adapter = sectionsPageAdapter
 
@@ -46,12 +54,6 @@ class DetailActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun subscribe() {
-        viewModel.user.observe(this) {
-            setUserData(it)
-        }
     }
 
     private fun setUserData(user: UserModel?) {
