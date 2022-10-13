@@ -5,100 +5,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.fundamentalsubmission.data.models.UserModel
-import com.example.fundamentalsubmission.data.service.ApiConfig
+import com.example.fundamentalsubmission.data.datasources.service.ApiConfig
+import com.example.fundamentalsubmission.data.repositories.UserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DetailViewModel : ViewModel() {
-    private val _user = MutableLiveData<UserModel?>()
-    val user: LiveData<UserModel?> = _user
+class DetailViewModel(val userRepository: UserRepository) : ViewModel() {
+    fun getDetailUser(username: String) = userRepository.getUserDetail(username)
 
-    private val _followers = MutableLiveData<List<UserModel>?>()
-    val followers: LiveData<List<UserModel>?> = _followers
+    fun fetchUserFollowers(username: String) = userRepository.fetchUserFollowers(username)
 
-    private val _followings = MutableLiveData<List<UserModel>?>()
-    val followings: LiveData<List<UserModel>?> = _followings
-
-    private val _isLoading = MutableLiveData<Boolean>()
-    val isLoading: LiveData<Boolean> = _isLoading
-
-    fun getUserDetail(username: String) {
-        _isLoading.value = true
-
-        val client = ApiConfig.getApiService().searchUserByUsername(username)
-        client.enqueue(object : Callback<UserModel> {
-            override fun onResponse(call: Call<UserModel>, response: Response<UserModel>) {
-                _isLoading.value = false
-
-                val responseBody = response.body()
-                if (response.isSuccessful && responseBody != null) {
-                    _user.value = responseBody
-                } else {
-                    Log.e(TAG, "responseFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                _isLoading.value = false
-                Log.e(TAG, "responseFailure: ${t.message}")
-            }
-        })
-    }
-
-    fun getUserFollowers(username: String) {
-        _isLoading.value = true
-
-        val client = ApiConfig.getApiService().getUserFollow(username, "followers")
-        client.enqueue(object : Callback<List<UserModel>> {
-            override fun onResponse(
-                call: Call<List<UserModel>>,
-                response: Response<List<UserModel>>
-            ) {
-                _isLoading.value = false
-
-                val responseBody = response.body()
-                if (response.isSuccessful && responseBody != null) {
-                    _followers.value = responseBody
-                } else {
-                    Log.e(TAG, "responseFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
-                _isLoading.value = false
-                Log.e(TAG, "responseFailure: ${t.message}")
-            }
-        })
-    }
-
-    fun getUserFollowings(username: String) {
-        _isLoading.value = true
-
-        val client = ApiConfig.getApiService().getUserFollow(username, "following")
-        client.enqueue(object : Callback<List<UserModel>> {
-            override fun onResponse(
-                call: Call<List<UserModel>>,
-                response: Response<List<UserModel>>
-            ) {
-                _isLoading.value = false
-
-                val responseBody = response.body()
-                if (response.isSuccessful && responseBody != null) {
-                    _followings.value = responseBody
-                } else {
-                    Log.e(TAG, "responseFailure: ${response.message()}")
-                }
-            }
-
-            override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
-                _isLoading.value = false
-                Log.e(TAG, "responseFailure: ${t.message}")
-            }
-        })
-    }
-
-    companion object {
-        private const val TAG = "DetailActivity"
-    }
+    fun fetchUserFollowing(username: String) = userRepository.fetchUserFollowing(username)
 }

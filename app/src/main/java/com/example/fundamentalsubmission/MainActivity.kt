@@ -2,6 +2,7 @@ package com.example.fundamentalsubmission
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -12,11 +13,14 @@ import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
+import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
+import com.example.fundamentalsubmission.utilities.ResultState
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
+    private lateinit var factory: ViewModelFactory
+    private val viewModel: MainViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = getString(R.string.search_users)
 
-        subscribe()
+        factory = ViewModelFactory.getInstance()
 
         val layout = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layout.orientation)
@@ -46,10 +50,10 @@ class MainActivity : AppCompatActivity() {
                         newText.let {
                             delay(500)
                             if (newText != null && newText.isNotEmpty()) {
-                                viewModel.searchUser(newText)
-                            } else{
+                                fetchSearchedUsers(newText)
+                            } else {
                                 binding.svSearch.clearFocus()
-                                viewModel.getUsers()
+                                fetchUsers()
                             }
                         }
                     }
@@ -59,22 +63,48 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun subscribe() {
-        viewModel.apply {
-            isLoading.observe(this@MainActivity) { showLoading(it) }
-            users.observe(this@MainActivity) {
-                if (it != null && it.isNotEmpty()) {
-                    setUserData(it)
-                    showMessage(false)
-                } else {
+    private fun fetchUsers() {
+        viewModel.fetchUsers().observe(this) { result ->
+            when (result) {
+                is ResultState.Loading -> {
+                    showLoading(true)
+                }
+                is ResultState.Success -> {
+                    if (result.data.isNotEmpty()) {
+                        showLoading(false)
+                        showMessage(false)
+                        setUserData(result.data)
+                    } else {
+                        showLoading(false)
+                        showMessage(true)
+                    }
+                }
+                is ResultState.Error -> {
+                    Log.d(TAG, result.message)
                     showMessage(true)
                 }
             }
-            searchedUsers.observe(this@MainActivity) {
-                if (it.isNotEmpty() && it != null) {
-                    setUserData(it)
-                    showMessage(false)
-                } else {
+        }
+    }
+
+    private fun fetchSearchedUsers(query: String) {
+        viewModel.fetchSearchedUsers(query).observe(this) { result ->
+            when (result) {
+                is ResultState.Loading -> {
+                    showLoading(true)
+                }
+                is ResultState.Success -> {
+                    if (result.data.isNotEmpty()) {
+                        showLoading(false)
+                        showMessage(false)
+                        setUserData(result.data)
+                    } else {
+                        showLoading(false)
+                        showMessage(true)
+                    }
+                }
+                is ResultState.Error -> {
+                    Log.d(TAG, result.message)
                     showMessage(true)
                 }
             }
@@ -119,5 +149,9 @@ class MainActivity : AppCompatActivity() {
                 rvList.visibility = View.VISIBLE
             }
         }
+    }
+
+    companion object {
+        private var TAG = this::class.java.simpleName
     }
 }

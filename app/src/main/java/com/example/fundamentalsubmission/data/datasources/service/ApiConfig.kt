@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission.data.service
+package com.example.fundamentalsubmission.data.datasources.service
 
 import androidx.viewbinding.BuildConfig
 import okhttp3.OkHttpClient
