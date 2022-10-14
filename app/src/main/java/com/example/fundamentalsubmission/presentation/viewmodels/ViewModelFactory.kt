@@ -8,6 +8,7 @@ import com.example.fundamentalsubmission.data.repositories.UserRepository
 class ViewModelFactory private constructor(val userRepository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(userRepository) as T
@@ -15,7 +16,7 @@ class ViewModelFactory private constructor(val userRepository: UserRepository) :
             return DetailViewModel(userRepository) as T
         }
 
-        throw IllegalArgumentException("Invalid view model class: ${modelClass}")
+        throw IllegalArgumentException("Unknown view model class: ${modelClass}")
     }
 
     companion object {

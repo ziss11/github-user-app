@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
-import androidx.annotation.StringRes
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
@@ -34,11 +33,7 @@ class DetailActivity : AppCompatActivity() {
         factory = ViewModelFactory.getInstance()
 
         val username = intent.getStringExtra(EXTRA_USERNAME)
-        viewModel.getDetailUser(username!!).observe(this) { result ->
-            if (result is ResultState.Success) {
-                setUserData(result.data)
-            }
-        }
+        getUserDetails(username!!)
 
         val sectionsPageAdapter = SectionsPageAdapter(this, username)
         binding.viewPager.adapter = sectionsPageAdapter
@@ -54,6 +49,14 @@ class DetailActivity : AppCompatActivity() {
             return true
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun getUserDetails(username: String) {
+        viewModel.getDetailUser(username).observe(this) { result ->
+            if (result is ResultState.Success) {
+                setUserData(result.data)
+            }
+        }
     }
 
     private fun setUserData(user: UserModel?) {
@@ -90,7 +93,6 @@ class DetailActivity : AppCompatActivity() {
     companion object {
         const val EXTRA_USERNAME = "extra_username"
 
-        @StringRes
         private val TAB_TITLES = intArrayOf(
             R.string.tab_followers,
             R.string.tab_following,

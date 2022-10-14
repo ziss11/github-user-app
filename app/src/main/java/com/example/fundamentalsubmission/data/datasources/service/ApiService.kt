@@ -8,21 +8,21 @@ import retrofit2.http.*
 
 interface ApiService {
     @GET("users")
-    fun getUsers(): LiveData<List<UserModel>>
+    fun getUsers(): Call<List<UserModel>>
 
     @GET("search/users")
     fun searchUser(
         @Query("q") q: String
-    ): LiveData<SearchUserResponse>
+    ): Call<SearchUserResponse>
 
     @GET("users/{username}")
     fun getUserByUsername(
         @Path("username") username: String
-    ): LiveData<UserModel>
+    ): Call<UserModel>
 
     @GET("users/{username}/{type}")
     fun getUserFollow(
         @Path("username") username: String,
         @Path("type") type: String
-    ): LiveData<List<UserModel>>
+    ): Call<List<UserModel>>
 }

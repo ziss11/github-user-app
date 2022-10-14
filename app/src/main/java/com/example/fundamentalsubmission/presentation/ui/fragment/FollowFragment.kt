@@ -1,7 +1,6 @@
 package com.example.fundamentalsubmission.presentation.ui.fragment
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fundamentalsubmission.MainActivity
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.databinding.FragmentFolllowBinding
@@ -78,7 +76,6 @@ class FollowFragment : Fragment() {
                     }
                 }
                 is ResultState.Error -> {
-                    Log.d(TAG, result.message)
                     showMessage(getString(R.string.fol_empty, "followers"))
                 }
             }
@@ -102,7 +99,6 @@ class FollowFragment : Fragment() {
                     }
                 }
                 is ResultState.Error -> {
-                    Log.d(TAG, result.message)
                     showMessage(getString(R.string.fol_empty, "followers"))
                 }
             }
@@ -136,7 +132,7 @@ class FollowFragment : Fragment() {
     }
 
     companion object {
-        private var TAG = this::class.java.simpleName
+        private var TAG = FollowFragment::class.java.simpleName
 
         const val ARG_SECTION_NUMBER = "section_number"
         const val EXTRA_USERNAME = "extra_username"

@@ -20,6 +20,7 @@ import kotlinx.coroutines.*
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var factory: ViewModelFactory
+
     private val viewModel: MainViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.search_users)
 
         factory = ViewModelFactory.getInstance()
+
+        fetchUsers()
 
         val layout = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layout.orientation)
@@ -65,23 +68,26 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchUsers() {
         viewModel.fetchUsers().observe(this) { result ->
-            when (result) {
-                is ResultState.Loading -> {
-                    showLoading(true)
-                }
-                is ResultState.Success -> {
-                    if (result.data.isNotEmpty()) {
-                        showLoading(false)
-                        showMessage(false)
-                        setUserData(result.data)
-                    } else {
-                        showLoading(false)
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+                    is ResultState.Success -> {
+                        if (result.data.isNotEmpty()) {
+                            Log.d(TAG, result.data.toString())
+                            showLoading(false)
+                            showMessage(false)
+                            setUserData(result.data)
+                        } else {
+                            showLoading(false)
+                            showMessage(true)
+                        }
+                    }
+                    is ResultState.Error -> {
+                        Log.d(TAG, result.message)
                         showMessage(true)
                     }
-                }
-                is ResultState.Error -> {
-                    Log.d(TAG, result.message)
-                    showMessage(true)
                 }
             }
         }
@@ -89,23 +95,24 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchSearchedUsers(query: String) {
         viewModel.fetchSearchedUsers(query).observe(this) { result ->
-            when (result) {
-                is ResultState.Loading -> {
-                    showLoading(true)
-                }
-                is ResultState.Success -> {
-                    if (result.data.isNotEmpty()) {
-                        showLoading(false)
-                        showMessage(false)
-                        setUserData(result.data)
-                    } else {
-                        showLoading(false)
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+                    is ResultState.Success -> {
+                        if (result.data.isNotEmpty()) {
+                            showLoading(false)
+                            showMessage(false)
+                            setUserData(result.data)
+                        } else {
+                            showLoading(false)
+                            showMessage(true)
+                        }
+                    }
+                    is ResultState.Error -> {
                         showMessage(true)
                     }
-                }
-                is ResultState.Error -> {
-                    Log.d(TAG, result.message)
-                    showMessage(true)
                 }
             }
         }
@@ -152,6 +159,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private var TAG = this::class.java.simpleName
+        private var TAG = MainActivity::class.java.simpleName
     }
 }

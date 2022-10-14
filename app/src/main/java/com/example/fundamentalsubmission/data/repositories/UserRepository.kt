@@ -1,7 +1,6 @@
 package com.example.fundamentalsubmission.data.repositories
 
 import com.example.fundamentalsubmission.Injection.provideRemoteDataSources
-import com.example.fundamentalsubmission.Injection.provideUserRepository
 import com.example.fundamentalsubmission.data.datasources.RemoteDataSources
 
 class UserRepository private constructor(private val remoteDataSources: RemoteDataSources) {
