@@ -13,12 +13,11 @@
         android:theme="@style/Theme.GithubUser">
         <activity
             android:name=".presentation.ui.activity.DetailActivity"
-            android:exported="true"
-            android:parentActivityName=".MainActivity" >
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"/>
+            android:launchMode="singleTop"
+            android:exported="true" />
         <activity
             android:name=".presentation.ui.activity.SplashActivity"
             android:exported="true"

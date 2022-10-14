@@ -2,7 +2,6 @@ package com.example.fundamentalsubmission
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.title = getString(R.string.search_users)
 
         factory = ViewModelFactory.getInstance()
-
         fetchUsers()
 
         val layout = LinearLayoutManager(this)
@@ -68,26 +66,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchUsers() {
         viewModel.fetchUsers().observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
-                    is ResultState.Success -> {
-                        if (result.data.isNotEmpty()) {
-                            Log.d(TAG, result.data.toString())
-                            showLoading(false)
-                            showMessage(false)
-                            setUserData(result.data)
-                        } else {
-                            showLoading(false)
-                            showMessage(true)
-                        }
-                    }
-                    is ResultState.Error -> {
-                        Log.d(TAG, result.message)
+            when (result) {
+                is ResultState.Loading -> {
+                    showLoading(true)
+                }
+                is ResultState.Success -> {
+                    if (result.data.isNotEmpty()) {
+                        showLoading(false)
+                        showMessage(false)
+                        setUserData(result.data)
+                    } else {
+                        showLoading(false)
                         showMessage(true)
                     }
+                }
+                is ResultState.Error -> {
+                    showMessage(true)
                 }
             }
         }
@@ -95,24 +89,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun fetchSearchedUsers(query: String) {
         viewModel.fetchSearchedUsers(query).observe(this) { result ->
-            if (result != null) {
-                when (result) {
-                    is ResultState.Loading -> {
-                        showLoading(true)
-                    }
-                    is ResultState.Success -> {
-                        if (result.data.isNotEmpty()) {
-                            showLoading(false)
-                            showMessage(false)
-                            setUserData(result.data)
-                        } else {
-                            showLoading(false)
-                            showMessage(true)
-                        }
-                    }
-                    is ResultState.Error -> {
+            when (result) {
+                is ResultState.Loading -> {
+                    showLoading(true)
+                }
+                is ResultState.Success -> {
+                    if (result.data.isNotEmpty()) {
+                        showLoading(false)
+                        showMessage(false)
+                        setUserData(result.data)
+                    } else {
+                        showLoading(false)
                         showMessage(true)
                     }
+                }
+                is ResultState.Error -> {
+                    showMessage(true)
                 }
             }
         }
@@ -156,9 +148,5 @@ class MainActivity : AppCompatActivity() {
                 rvList.visibility = View.VISIBLE
             }
         }
-    }
-
-    companion object {
-        private var TAG = MainActivity::class.java.simpleName
     }
 }

@@ -13,11 +13,14 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class RemoteDataSources private constructor(private val apiService: ApiService) {
-    private val resultList = MediatorLiveData<ResultState<List<UserModel>>>()
-    private val resultObject = MediatorLiveData<ResultState<UserModel>>()
+    private val usersResult = MediatorLiveData<ResultState<List<UserModel>>>()
+    private val searchedUsersResult = MediatorLiveData<ResultState<List<UserModel>>>()
+    private val userDetailResult = MediatorLiveData<ResultState<UserModel>>()
+    private val followersResult = MediatorLiveData<ResultState<List<UserModel>>>()
+    private val followingResult = MediatorLiveData<ResultState<List<UserModel>>>()
 
     fun getUsers(): LiveData<ResultState<List<UserModel>>> {
-        resultList.value = ResultState.Loading
+        usersResult.value = ResultState.Loading
 
         val client = apiService.getUsers()
         client.enqueue(object : Callback<List<UserModel>> {
@@ -28,24 +31,24 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
                 val responseBody = response.body()
 
                 if (response.isSuccessful && responseBody != null) {
-                    resultList.value = ResultState.Success(responseBody)
+                    usersResult.value = ResultState.Success(responseBody)
                 } else {
-                    resultList.value = ResultState.Error(response.message().toString())
+                    usersResult.value = ResultState.Error(response.message().toString())
                     Log.d(TAG, response.message().toString())
                 }
             }
 
             override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
-                resultList.value = ResultState.Error(t.message.toString())
+                usersResult.value = ResultState.Error(t.message.toString())
                 Log.d(TAG, t.message.toString())
             }
         })
 
-        return resultList
+        return usersResult
     }
 
     fun getSearchedUsers(query: String): LiveData<ResultState<List<UserModel>>> {
-        resultList.value = ResultState.Loading
+        searchedUsersResult.value = ResultState.Loading
 
         val client = apiService.searchUser(query)
         client.enqueue(object : Callback<SearchUserResponse> {
@@ -56,24 +59,24 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
                 val responseBody = response.body()
 
                 if (response.isSuccessful && responseBody != null) {
-                    resultList.value = ResultState.Success(responseBody.items!!)
+                    searchedUsersResult.value = ResultState.Success(responseBody.items!!)
                 } else {
-                    resultList.value = ResultState.Error(response.message().toString())
+                    searchedUsersResult.value = ResultState.Error(response.message().toString())
                     Log.d(TAG, response.message().toString())
                 }
             }
 
             override fun onFailure(call: Call<SearchUserResponse>, t: Throwable) {
-                resultList.value = ResultState.Error(t.message.toString())
+                searchedUsersResult.value = ResultState.Error(t.message.toString())
                 Log.d(TAG, t.message.toString())
             }
         })
 
-        return resultList
+        return searchedUsersResult
     }
 
     fun getUserByUsername(username: String): LiveData<ResultState<UserModel>> {
-        resultObject.value = ResultState.Loading
+        userDetailResult.value = ResultState.Loading
 
         val client = apiService.getUserByUsername(username)
         client.enqueue(object : Callback<UserModel> {
@@ -84,24 +87,24 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
                 val responseBody = response.body()
 
                 if (response.isSuccessful && responseBody != null) {
-                    resultObject.value = ResultState.Success(responseBody)
+                    userDetailResult.value = ResultState.Success(responseBody)
                 } else {
-                    resultObject.value = ResultState.Error(response.message().toString())
+                    userDetailResult.value = ResultState.Error(response.message().toString())
                     Log.d(TAG, response.message().toString())
                 }
             }
 
             override fun onFailure(call: Call<UserModel>, t: Throwable) {
-                resultObject.value = ResultState.Error(t.message.toString())
+                userDetailResult.value = ResultState.Error(t.message.toString())
                 Log.d(TAG, t.message.toString())
             }
         })
 
-        return resultObject
+        return userDetailResult
     }
 
     fun fetchUserFollowers(username: String): LiveData<ResultState<List<UserModel>>> {
-        resultList.value = ResultState.Loading
+        followersResult.value = ResultState.Loading
 
         val client = apiService.getUserFollow(username, FOLLOWERS)
         client.enqueue(object : Callback<List<UserModel>> {
@@ -112,24 +115,24 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
                 val responseBody = response.body()
 
                 if (response.isSuccessful && responseBody != null) {
-                    resultList.value = ResultState.Success(responseBody)
+                    followersResult.value = ResultState.Success(responseBody)
                 } else {
-                    resultList.value = ResultState.Error(response.message().toString())
+                    followersResult.value = ResultState.Error(response.message().toString())
                     Log.d(TAG, response.message().toString())
                 }
             }
 
             override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
-                resultList.value = ResultState.Error(t.message.toString())
+                followersResult.value = ResultState.Error(t.message.toString())
                 Log.d(TAG, t.message.toString())
             }
         })
 
-        return resultList
+        return followersResult
     }
 
     fun fetchUserFollowing(username: String): LiveData<ResultState<List<UserModel>>> {
-        resultList.value = ResultState.Loading
+        followingResult.value = ResultState.Loading
 
         val client = apiService.getUserFollow(username, FOLLOWING)
         client.enqueue(object : Callback<List<UserModel>> {
@@ -140,20 +143,20 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
                 val responseBody = response.body()
 
                 if (response.isSuccessful && responseBody != null) {
-                    resultList.value = ResultState.Success(responseBody)
+                    followingResult.value = ResultState.Success(responseBody)
                 } else {
-                    resultList.value = ResultState.Error(response.message().toString())
+                    followingResult.value = ResultState.Error(response.message().toString())
                     Log.d(TAG, response.message().toString())
                 }
             }
 
             override fun onFailure(call: Call<List<UserModel>>, t: Throwable) {
-                resultList.value = ResultState.Error(t.message.toString())
+                followingResult.value = ResultState.Error(t.message.toString())
                 Log.d(TAG, t.message.toString())
             }
         })
 
-        return resultList
+        return followingResult
     }
 
     companion object {

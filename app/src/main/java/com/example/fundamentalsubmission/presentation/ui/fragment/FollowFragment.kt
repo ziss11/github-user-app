@@ -21,8 +21,8 @@ class FollowFragment : Fragment() {
     private var _binding: FragmentFolllowBinding? = null
     private val binding get() = _binding!!
 
-    private var factory: ViewModelFactory? = null
-    private val viewModel: DetailViewModel by viewModels { factory as ViewModelFactory }
+    private lateinit var factory: ViewModelFactory
+    private val viewModel: DetailViewModel by viewModels { factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,22 +61,23 @@ class FollowFragment : Fragment() {
 
     private fun getFollowers(username: String) {
         viewModel.fetchUserFollowers(username).observe(requireActivity()) { result ->
-            when (result) {
-                is ResultState.Loading -> {
-                    showLoading(true)
-                }
-                is ResultState.Success -> {
-                    if (result.data.isNotEmpty()) {
-                        showLoading(false)
-                        showMessage(getString(R.string.fol_empty, "followers"))
-                        setUserData(result.data)
-                    } else {
-                        showLoading(false)
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
+                    }
+                    is ResultState.Success -> {
+                        if (result.data.isNotEmpty()) {
+                            showLoading(false)
+                            setUserData(result.data)
+                        } else {
+                            showLoading(false)
+                            showMessage(getString(R.string.fol_empty, "followers"))
+                        }
+                    }
+                    is ResultState.Error -> {
                         showMessage(getString(R.string.fol_empty, "followers"))
                     }
-                }
-                is ResultState.Error -> {
-                    showMessage(getString(R.string.fol_empty, "followers"))
                 }
             }
         }
@@ -84,22 +85,23 @@ class FollowFragment : Fragment() {
 
     private fun getFollowing(username: String) {
         viewModel.fetchUserFollowing(username).observe(requireActivity()) { result ->
-            when (result) {
-                is ResultState.Loading -> {
-                    showLoading(true)
-                }
-                is ResultState.Success -> {
-                    if (result.data.isNotEmpty()) {
-                        showLoading(false)
-                        showMessage(getString(R.string.fol_empty, "followers"))
-                        setUserData(result.data)
-                    } else {
-                        showLoading(false)
-                        showMessage(getString(R.string.fol_empty, "followers"))
+            if (result != null) {
+                when (result) {
+                    is ResultState.Loading -> {
+                        showLoading(true)
                     }
-                }
-                is ResultState.Error -> {
-                    showMessage(getString(R.string.fol_empty, "followers"))
+                    is ResultState.Success -> {
+                        if (result.data.isNotEmpty()) {
+                            showLoading(false)
+                            setUserData(result.data)
+                        } else {
+                            showLoading(false)
+                            showMessage(getString(R.string.fol_empty, "following"))
+                        }
+                    }
+                    is ResultState.Error -> {
+                        showMessage(getString(R.string.fol_empty, "following"))
+                    }
                 }
             }
         }
@@ -132,8 +134,6 @@ class FollowFragment : Fragment() {
     }
 
     companion object {
-        private var TAG = FollowFragment::class.java.simpleName
-
         const val ARG_SECTION_NUMBER = "section_number"
         const val EXTRA_USERNAME = "extra_username"
     }
