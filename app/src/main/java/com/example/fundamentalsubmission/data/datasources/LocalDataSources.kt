@@ -14,7 +14,7 @@ import com.example.fundamentalsubmission.utilities.ResultState
 interface LocalDataSources {
     fun getFavoriteUsers(): LiveData<ResultState<List<UserEntity>>>
     suspend fun insertUser(user: UserEntity)
-    suspend fun deleteUser(id: String)
+    suspend fun deleteUser(user: UserEntity)
 }
 
 class LocalDataSourcesImpl private constructor(val userDao: UserDao) : LocalDataSources {
@@ -37,8 +37,8 @@ class LocalDataSourcesImpl private constructor(val userDao: UserDao) : LocalData
         userDao.insertUser(user)
     }
 
-    override suspend fun deleteUser(id: String) {
-        userDao.deleteUser(id)
+    override suspend fun deleteUser(user: UserEntity) {
+        userDao.deleteUser(user)
     }
 
     companion object {

@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.fundamentalsubmission.data.models.UserEntity
 
-@Database(entities = [UserEntity::class], version = 1)
+@Database(entities = [UserEntity::class], version = 5)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
@@ -16,7 +16,8 @@ abstract class UserDatabase : RoomDatabase() {
         fun getInstance(context: Context) = instance ?: synchronized(this) {
             instance ?: Room.databaseBuilder(
                 context.applicationContext,
-                UserDatabase::class.java, "user_database"
+                UserDatabase::class.java,
+                "user_database"
             ).build()
         }.also { instance = it }
     }

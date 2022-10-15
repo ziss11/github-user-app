@@ -68,7 +68,7 @@
                         android:layout_width="13dp"
                         android:layout_height="13dp"
                         android:contentDescription="@string/user_location"
-                        android:src="@drawable/location_icon"
+                        android:src="@drawable/ic_location"
                         app:tint="@color/white" />
 
                     <TextView
@@ -143,7 +143,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:contentDescription="@string/repository_icon"
-                    android:src="@drawable/repo_icon"
+                    android:src="@drawable/ic_repo"
                     app:tint="@color/white" />
 
                  <TextView
@@ -192,7 +192,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:contentDescription="@string/followers_icon"
-                    android:src="@drawable/user_icon"
+                    android:src="@drawable/ic_user"
                     app:tint="@color/white" />
 
                 <TextView
@@ -240,7 +240,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:contentDescription="@string/following_icon"
-                    android:src="@drawable/user_icon"
+                    android:src="@drawable/ic_user"
                     app:tint="@color/white" />
 
                 <TextView

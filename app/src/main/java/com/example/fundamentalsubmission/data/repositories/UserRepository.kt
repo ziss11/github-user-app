@@ -25,7 +25,7 @@ class UserRepository private constructor(
 
     suspend fun add2Favorite(user: UserEntity) = localDataSources.insertUser(user)
 
-    suspend fun removeFromFavorite(id: String) = localDataSources.deleteUser(id)
+    suspend fun removeFromFavorite(user: UserEntity) = localDataSources.deleteUser(user)
 
     companion object {
         private var instance: UserRepository? = null

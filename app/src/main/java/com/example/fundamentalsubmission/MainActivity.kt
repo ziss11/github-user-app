@@ -2,6 +2,8 @@ package com.example.fundamentalsubmission
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
@@ -62,6 +64,19 @@ class MainActivity : AppCompatActivity() {
                 }
             })
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.setting_action -> {}
+            R.id.favorite_action -> {}
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun fetchUsers() {

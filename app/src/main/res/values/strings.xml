@@ -14,7 +14,7 @@
     <string name="followers">Followers</string>
     <string name="followings">Followings</string>
     <string name="repositories">Repositories</string>
-    <string name="search_users">Github User\'s Search</string>
+    <string name="search_users">Github Search</string>
     <string name="search_hint">Type to search user…</string>
     <string name="user_not_found">User not Found!!!</string>
     <string name="repository_icon">Repository Icon</string>
@@ -23,4 +23,6 @@
     <string name="tab_following">Following</string>
     <string name="fol_empty">User don\'t have %1$s</string>
     <string name="fol_tab">Fol Tab</string>
+    <string name="theme">Theme</string>
+    <string name="favorite">Favorite</string>
 </resources>
