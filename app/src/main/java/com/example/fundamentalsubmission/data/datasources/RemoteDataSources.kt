@@ -12,14 +12,23 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RemoteDataSources private constructor(private val apiService: ApiService) {
+interface RemoteDataSources {
+    fun getUsers(): LiveData<ResultState<List<UserModel>>>
+    fun getSearchedUsers(query: String): LiveData<ResultState<List<UserModel>>>
+    fun getUserByUsername(username: String): LiveData<ResultState<UserModel>>
+    fun fetchUserFollowers(username: String): LiveData<ResultState<List<UserModel>>>
+    fun fetchUserFollowing(username: String): LiveData<ResultState<List<UserModel>>>
+}
+
+class RemoteDataSourcesImpl private constructor(private val apiService: ApiService) :
+    RemoteDataSources {
     private val usersResult = MediatorLiveData<ResultState<List<UserModel>>>()
     private val searchedUsersResult = MediatorLiveData<ResultState<List<UserModel>>>()
     private val userDetailResult = MediatorLiveData<ResultState<UserModel>>()
     private val followersResult = MediatorLiveData<ResultState<List<UserModel>>>()
     private val followingResult = MediatorLiveData<ResultState<List<UserModel>>>()
 
-    fun getUsers(): LiveData<ResultState<List<UserModel>>> {
+    override fun getUsers(): LiveData<ResultState<List<UserModel>>> {
         usersResult.value = ResultState.Loading
 
         val client = apiService.getUsers()
@@ -47,7 +56,7 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
         return usersResult
     }
 
-    fun getSearchedUsers(query: String): LiveData<ResultState<List<UserModel>>> {
+    override fun getSearchedUsers(query: String): LiveData<ResultState<List<UserModel>>> {
         searchedUsersResult.value = ResultState.Loading
 
         val client = apiService.searchUser(query)
@@ -75,7 +84,7 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
         return searchedUsersResult
     }
 
-    fun getUserByUsername(username: String): LiveData<ResultState<UserModel>> {
+    override fun getUserByUsername(username: String): LiveData<ResultState<UserModel>> {
         userDetailResult.value = ResultState.Loading
 
         val client = apiService.getUserByUsername(username)
@@ -103,7 +112,7 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
         return userDetailResult
     }
 
-    fun fetchUserFollowers(username: String): LiveData<ResultState<List<UserModel>>> {
+    override fun fetchUserFollowers(username: String): LiveData<ResultState<List<UserModel>>> {
         followersResult.value = ResultState.Loading
 
         val client = apiService.getUserFollow(username, FOLLOWERS)
@@ -131,7 +140,7 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
         return followersResult
     }
 
-    fun fetchUserFollowing(username: String): LiveData<ResultState<List<UserModel>>> {
+    override fun fetchUserFollowing(username: String): LiveData<ResultState<List<UserModel>>> {
         followingResult.value = ResultState.Loading
 
         val client = apiService.getUserFollow(username, FOLLOWING)
@@ -164,10 +173,10 @@ class RemoteDataSources private constructor(private val apiService: ApiService) 
         private const val FOLLOWERS = "followers"
         private const val FOLLOWING = "following"
 
-        private var instance: RemoteDataSources? = null
+        private var instance: RemoteDataSourcesImpl? = null
 
         fun getInstance() = instance ?: synchronized(this) {
-            instance ?: RemoteDataSources(provideApiService())
+            instance ?: RemoteDataSourcesImpl(provideApiService())
         }.also { instance = it }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.fundamentalsubmission.presentation.viewmodels
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.fundamentalsubmission.Injection.provideUserRepository
@@ -22,8 +23,8 @@ class ViewModelFactory private constructor(val userRepository: UserRepository) :
     companion object {
         private var instance: ViewModelFactory? = null
 
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: ViewModelFactory(provideUserRepository())
+        fun getInstance(context: Context) = instance ?: synchronized(this) {
+            instance ?: ViewModelFactory(provideUserRepository(context))
         }.also { instance = it }
     }
 }

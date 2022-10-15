@@ -34,7 +34,7 @@ class FollowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        factory = ViewModelFactory.getInstance()
+        factory = ViewModelFactory.getInstance(requireActivity())
 
         val layout = LinearLayoutManager(requireActivity())
         val itemDecoration = DividerItemDecoration(requireActivity(), layout.orientation)

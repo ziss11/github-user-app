@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.title = getString(R.string.search_users)
 
-        factory = ViewModelFactory.getInstance()
+        factory = ViewModelFactory.getInstance(this)
         fetchUsers()
 
         val layout = LinearLayoutManager(this)

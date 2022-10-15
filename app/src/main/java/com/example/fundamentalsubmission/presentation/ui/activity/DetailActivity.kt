@@ -30,7 +30,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0F
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        factory = ViewModelFactory.getInstance()
+        factory = ViewModelFactory.getInstance(this)
 
         val username = intent.getStringExtra(EXTRA_USERNAME)
         getUserDetails(username!!)

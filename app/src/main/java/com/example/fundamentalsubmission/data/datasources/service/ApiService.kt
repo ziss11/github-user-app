@@ -1,6 +1,5 @@
 package com.example.fundamentalsubmission.data.datasources.service
 
-import androidx.lifecycle.LiveData
 import com.example.fundamentalsubmission.data.models.SearchUserResponse
 import com.example.fundamentalsubmission.data.models.UserModel
 import retrofit2.Call
