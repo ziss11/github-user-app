@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/setting_action"
+        android:id="@+id/theme_action"
         android:icon="@drawable/ic_dark_mode"
         android:title="@string/theme"
         app:showAsAction="ifRoom" />

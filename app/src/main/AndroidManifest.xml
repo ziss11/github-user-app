@@ -11,18 +11,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GithubUser">
         <activity
+            android:name=".presentation.ui.activity.FavoriteActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.activity.DetailActivity"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:launchMode="singleTop"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleTop" />
         <activity
             android:name=".presentation.ui.activity.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.GithubUser.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

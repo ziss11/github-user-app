@@ -15,6 +15,8 @@ class ViewModelFactory private constructor(val userRepository: UserRepository) :
             return MainViewModel(userRepository) as T
         } else if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
             return DetailViewModel(userRepository) as T
+        } else if (modelClass.isAssignableFrom(FavoriteViewModel::class.java)) {
+            return FavoriteViewModel(userRepository) as T
         }
 
         throw IllegalArgumentException("Unknown view model class: ${modelClass}")

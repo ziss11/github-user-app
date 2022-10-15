@@ -13,6 +13,7 @@ import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
 import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
+import com.example.fundamentalsubmission.presentation.ui.activity.FavoriteActivity
 import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
 import com.example.fundamentalsubmission.utilities.ResultState
@@ -21,6 +22,7 @@ import kotlinx.coroutines.*
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var factory: ViewModelFactory
+    private lateinit var userAdapter: UserAdapter
 
     private val viewModel: MainViewModel by viewModels { factory }
 
@@ -36,7 +38,15 @@ class MainActivity : AppCompatActivity() {
         val layout = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layout.orientation)
 
+        userAdapter = UserAdapter(object : UserAdapter.OnItemClickCallback {
+            override fun onItemClicked(user: UserModel) {
+                DetailActivity.start(this@MainActivity, user.username!!)
+            }
+        })
+
+
         binding.apply {
+            rvList.adapter = userAdapter
             rvList.layoutManager = layout
             rvList.addItemDecoration(itemDecoration)
             binding.svSearch.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -72,9 +82,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
-            R.id.setting_action -> {}
-            R.id.favorite_action -> {}
+        when (item.itemId) {
+            R.id.theme_action -> {}
+            R.id.favorite_action -> FavoriteActivity.start(this)
         }
         return super.onOptionsItemSelected(item)
     }
@@ -89,7 +99,7 @@ class MainActivity : AppCompatActivity() {
                     if (result.data.isNotEmpty()) {
                         showLoading(false)
                         showMessage(false)
-                        setUserData(result.data)
+                        userAdapter.setListUsers(result.data)
                     } else {
                         showLoading(false)
                         showMessage(true)
@@ -112,7 +122,7 @@ class MainActivity : AppCompatActivity() {
                     if (result.data.isNotEmpty()) {
                         showLoading(false)
                         showMessage(false)
-                        setUserData(result.data)
+                        userAdapter.setListUsers(result.data)
                     } else {
                         showLoading(false)
                         showMessage(true)
@@ -123,16 +133,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-    }
-
-    private fun setUserData(users: List<UserModel>?) {
-        val userAdapter = UserAdapter(users!!)
-        binding.rvList.adapter = userAdapter
-        userAdapter.setOnItemCallback(object : UserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: UserModel) {
-                DetailActivity.start(this@MainActivity, user.username!!)
-            }
-        })
     }
 
     private fun showMessage(isShowMessage: Boolean) {

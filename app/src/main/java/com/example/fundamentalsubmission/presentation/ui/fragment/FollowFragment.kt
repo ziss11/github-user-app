@@ -21,7 +21,9 @@ class FollowFragment : Fragment() {
     private var _binding: FragmentFolllowBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var userAdapter: UserAdapter
     private lateinit var factory: ViewModelFactory
+
     private val viewModel: DetailViewModel by viewModels { factory }
 
     override fun onCreateView(
@@ -39,7 +41,14 @@ class FollowFragment : Fragment() {
         val layout = LinearLayoutManager(requireActivity())
         val itemDecoration = DividerItemDecoration(requireActivity(), layout.orientation)
 
+        userAdapter = UserAdapter(object : UserAdapter.OnItemClickCallback {
+            override fun onItemClicked(user: UserModel) {
+                DetailActivity.start(requireActivity(), user.username!!)
+            }
+        })
+
         binding.rvUsers.apply {
+            adapter = userAdapter
             layoutManager = layout
             addItemDecoration(itemDecoration)
         }
@@ -69,7 +78,7 @@ class FollowFragment : Fragment() {
                     is ResultState.Success -> {
                         if (result.data.isNotEmpty()) {
                             showLoading(false)
-                            setUserData(result.data)
+                            userAdapter.setListUsers(result.data)
                         } else {
                             showLoading(false)
                             showMessage(getString(R.string.fol_empty, "followers"))
@@ -93,7 +102,7 @@ class FollowFragment : Fragment() {
                     is ResultState.Success -> {
                         if (result.data.isNotEmpty()) {
                             showLoading(false)
-                            setUserData(result.data)
+                            userAdapter.setListUsers(result.data)
                         } else {
                             showLoading(false)
                             showMessage(getString(R.string.fol_empty, "following"))
@@ -105,16 +114,6 @@ class FollowFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun setUserData(users: List<UserModel>?) {
-        val userAdapter = UserAdapter(users!!)
-        binding.rvUsers.adapter = userAdapter
-        userAdapter.setOnItemCallback(object : UserAdapter.OnItemClickCallback {
-            override fun onItemClicked(user: UserModel) {
-                DetailActivity.start(requireActivity(), user.username!!)
-            }
-        })
     }
 
     private fun showMessage(text: String) {

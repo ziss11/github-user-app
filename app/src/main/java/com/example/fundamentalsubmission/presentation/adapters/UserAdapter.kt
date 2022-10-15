@@ -5,19 +5,25 @@ import android.media.Image
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.fundamentalsubmission.databinding.ItemUserBinding
 import com.example.fundamentalsubmission.data.models.UserModel
+import com.example.fundamentalsubmission.utilities.UserDIffCallback
 import com.example.fundamentalsubmission.utilities.loadImage
 
-class UserAdapter(private val listUser: List<UserModel>) :
-    RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
-    private lateinit var onItemClickCallback: OnItemClickCallback
+class UserAdapter(val onItemClickCallback: OnItemClickCallback) : RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
-    fun setOnItemCallback(onItemCallback: OnItemClickCallback) {
-        this.onItemClickCallback = onItemCallback
+    private val listUser = ArrayList<UserModel>()
+
+    fun setListUsers(listUser: List<UserModel>) {
+        val diffCallback = UserDIffCallback(this.listUser, listUser)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this.listUser.clear()
+        this.listUser.addAll(listUser)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     class ListViewHolder(var binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root)

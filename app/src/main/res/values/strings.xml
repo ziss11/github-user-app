@@ -23,6 +23,8 @@
     <string name="tab_following">Following</string>
     <string name="fol_empty">User don\'t have %1$s</string>
     <string name="fol_tab">Fol Tab</string>
+    <string name="favorite_empty">You don\'t have favorite users</string>
     <string name="theme">Theme</string>
     <string name="favorite">Favorite</string>
+    <string name="favorite_title">Favorite User</string>
 </resources>
