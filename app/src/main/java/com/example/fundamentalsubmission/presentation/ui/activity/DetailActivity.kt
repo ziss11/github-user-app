@@ -4,9 +4,11 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
@@ -62,7 +64,7 @@ class DetailActivity : AppCompatActivity() {
         val headerItem = binding.headerItem
 
         headerItem.apply {
-            ivUserAvatar.loadImage(this@DetailActivity, user?.avatar)
+            ivUserAvatar.loadImage(user?.avatar)
             tvUserName.text = user?.name
             tvUserUname.text = user?.username
             tvRepositories.text = user?.publicRepos.toString()

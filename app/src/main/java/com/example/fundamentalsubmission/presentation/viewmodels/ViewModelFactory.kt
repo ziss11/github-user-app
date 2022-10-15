@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.fundamentalsubmission.Injection.provideUserRepository
 import com.example.fundamentalsubmission.data.repositories.UserRepository
 
-class ViewModelFactory private constructor(val userRepository: UserRepository) :
+class ViewModelFactory private constructor(private val userRepository: UserRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")

@@ -14,6 +14,7 @@ import com.example.fundamentalsubmission.databinding.FragmentFolllowBinding
 import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.viewmodels.DetailViewModel
+import com.example.fundamentalsubmission.presentation.viewmodels.FavoriteViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
 import com.example.fundamentalsubmission.utilities.ResultState
 
@@ -24,7 +25,7 @@ class FollowFragment : Fragment() {
     private lateinit var userAdapter: UserAdapter
     private lateinit var factory: ViewModelFactory
 
-    private val viewModel: DetailViewModel by viewModels { factory }
+    private val detailViewModel: DetailViewModel by viewModels { factory }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,7 +42,7 @@ class FollowFragment : Fragment() {
         val layout = LinearLayoutManager(requireActivity())
         val itemDecoration = DividerItemDecoration(requireActivity(), layout.orientation)
 
-        userAdapter = UserAdapter(object : UserAdapter.OnItemClickCallback {
+        userAdapter = UserAdapter(onItemClickCallback = object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: UserModel) {
                 DetailActivity.start(requireActivity(), user.username!!)
             }
@@ -69,7 +70,7 @@ class FollowFragment : Fragment() {
     }
 
     private fun getFollowers(username: String) {
-        viewModel.fetchUserFollowers(username).observe(requireActivity()) { result ->
+        detailViewModel.fetchUserFollowers(username).observe(requireActivity()) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {
@@ -93,7 +94,7 @@ class FollowFragment : Fragment() {
     }
 
     private fun getFollowing(username: String) {
-        viewModel.fetchUserFollowing(username).observe(requireActivity()) { result ->
+        detailViewModel.fetchUserFollowing(username).observe(requireActivity()) { result ->
             if (result != null) {
                 when (result) {
                     is ResultState.Loading -> {

@@ -14,6 +14,7 @@ import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.ui.activity.FavoriteActivity
+import com.example.fundamentalsubmission.presentation.viewmodels.FavoriteViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
 import com.example.fundamentalsubmission.utilities.ResultState
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private lateinit var userAdapter: UserAdapter
 
-    private val viewModel: MainViewModel by viewModels { factory }
+    private val mainViewModel: MainViewModel by viewModels { factory }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,15 +36,15 @@ class MainActivity : AppCompatActivity() {
         factory = ViewModelFactory.getInstance(this)
         fetchUsers()
 
+
         val layout = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layout.orientation)
 
-        userAdapter = UserAdapter(object : UserAdapter.OnItemClickCallback {
+        userAdapter = UserAdapter(onItemClickCallback = object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: UserModel) {
                 DetailActivity.start(this@MainActivity, user.username!!)
             }
         })
-
 
         binding.apply {
             rvList.adapter = userAdapter
@@ -90,13 +91,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchUsers() {
-        viewModel.fetchUsers().observe(this) { result ->
+        mainViewModel.fetchUsers().observe(this) { result ->
             when (result) {
                 is ResultState.Loading -> {
                     showLoading(true)
                 }
                 is ResultState.Success -> {
                     if (result.data.isNotEmpty()) {
+
                         showLoading(false)
                         showMessage(false)
                         userAdapter.setListUsers(result.data)
@@ -113,7 +115,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun fetchSearchedUsers(query: String) {
-        viewModel.fetchSearchedUsers(query).observe(this) { result ->
+        mainViewModel.fetchSearchedUsers(query).observe(this) { result ->
             when (result) {
                 is ResultState.Loading -> {
                     showLoading(true)

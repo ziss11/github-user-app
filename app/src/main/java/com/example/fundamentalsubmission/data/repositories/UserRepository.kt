@@ -1,11 +1,15 @@
 package com.example.fundamentalsubmission.data.repositories
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.example.fundamentalsubmission.Injection.provideLocalDataSources
 import com.example.fundamentalsubmission.Injection.provideRemoteDataSources
 import com.example.fundamentalsubmission.data.datasources.LocalDataSources
 import com.example.fundamentalsubmission.data.datasources.RemoteDataSources
 import com.example.fundamentalsubmission.data.models.UserEntity
+import com.example.fundamentalsubmission.data.models.UserModel
+import com.example.fundamentalsubmission.utilities.ResultState
+import com.example.fundamentalsubmission.utilities.toEntity
 
 class UserRepository private constructor(
     private val remoteDataSources: RemoteDataSources,
@@ -15,7 +19,8 @@ class UserRepository private constructor(
 
     fun fetchSearchedUsers(query: String) = remoteDataSources.getSearchedUsers(query)
 
-    fun getUserDetail(username: String) = remoteDataSources.getUserByUsername(username)
+    fun getUserDetail(username: String) =
+        remoteDataSources.getUserByUsername(username)
 
     fun fetchUserFollowers(username: String) = remoteDataSources.fetchUserFollowers(username)
 
@@ -23,9 +28,11 @@ class UserRepository private constructor(
 
     fun fetchFavoriteUsers() = localDataSources.getFavoriteUsers()
 
-    suspend fun add2Favorite(user: UserEntity) = localDataSources.insertUser(user)
+    fun getFavoriteByUsername(username: String) = localDataSources.getUserByUsername(username)
 
-    suspend fun removeFromFavorite(user: UserEntity) = localDataSources.deleteUser(user)
+    suspend fun add2Favorite(user: UserModel) = localDataSources.insertUser(user.toEntity())
+
+    suspend fun removeFromFavorite(username: String) = localDataSources.deleteUser(username)
 
     companion object {
         private var instance: UserRepository? = null

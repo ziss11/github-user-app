@@ -39,7 +39,7 @@ class FavoriteActivity : AppCompatActivity() {
         val layout = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layout.orientation)
 
-        userAdapter = UserAdapter(object : UserAdapter.OnItemClickCallback {
+        userAdapter = UserAdapter(onItemClickCallback = object : UserAdapter.OnItemClickCallback {
             override fun onItemClicked(user: UserModel) {
                 DetailActivity.start(this@FavoriteActivity, user.username!!)
             }
@@ -61,17 +61,16 @@ class FavoriteActivity : AppCompatActivity() {
                 is ResultState.Success -> {
                     if (result.data.isNotEmpty()) {
                         val userModel = result.data.map { it.toModel() }
-
                         showLoading(false)
-                        showMessage(getString(R.string.favorite_empty))
+                        showMessage(false)
                         userAdapter.setListUsers(userModel)
                     } else {
                         showLoading(false)
-                        showMessage(getString(R.string.favorite_empty))
+                        showMessage(true)
                     }
                 }
                 is ResultState.Error -> {
-                    showMessage(getString(R.string.favorite_empty))
+                    showMessage(true)
                 }
             }
         }
@@ -100,11 +99,17 @@ class FavoriteActivity : AppCompatActivity() {
         }
     }
 
-    private fun showMessage(text: String) {
-        binding.apply {
-            tvMessage.text = text
-            tvMessage.visibility = View.VISIBLE
-            rvFavoriteUser.visibility = View.INVISIBLE
+    private fun showMessage(isShowMessage: Boolean) {
+        if (isShowMessage) {
+            binding.apply {
+                tvMessage.visibility = View.VISIBLE
+                rvFavoriteUser.visibility = View.INVISIBLE
+            }
+        } else {
+            binding.apply {
+                tvMessage.visibility = View.INVISIBLE
+                rvFavoriteUser.visibility = View.VISIBLE
+            }
         }
     }
 
