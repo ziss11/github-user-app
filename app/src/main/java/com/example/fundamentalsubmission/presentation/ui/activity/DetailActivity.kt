@@ -98,9 +98,19 @@ class DetailActivity : AppCompatActivity() {
 
     private fun getUserDetails(username: String) {
         viewModel.getDetailUser(username).observe(this) { result ->
-            if (result is ResultState.Success) {
-                userData = result.data
-                setUserData(userData)
+            when (result) {
+                is ResultState.Loading -> {
+                    showLoading(true)
+                }
+                is ResultState.Success -> {
+                    showLoading(false)
+                    userData = result.data
+                    setUserData(userData)
+                }
+                is ResultState.Error -> {
+                    showLoading(false)
+                    showMessage(true)
+                }
             }
         }
     }
@@ -132,6 +142,36 @@ class DetailActivity : AppCompatActivity() {
                 company.visibility = View.GONE
             } else {
                 tvCompany.text = user.company
+            }
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.headerItem.apply {
+                progressBar.visibility = View.VISIBLE
+                tvMessage.visibility = View.GONE
+                userDetail.visibility = View.GONE
+            }
+        } else {
+            binding.headerItem.apply {
+                progressBar.visibility = View.GONE
+                tvMessage.visibility = View.VISIBLE
+                userDetail.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun showMessage(isShowMessage: Boolean) {
+        if (isShowMessage) {
+            binding.headerItem.apply {
+                tvMessage.visibility = View.VISIBLE
+                userDetail.visibility = View.GONE
+            }
+        } else {
+            binding.headerItem.apply {
+                tvMessage.visibility = View.GONE
+                userDetail.visibility = View.VISIBLE
             }
         }
     }

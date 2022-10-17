@@ -116,6 +116,7 @@ class FollowFragment : Fragment() {
                         }
                     }
                     is ResultState.Error -> {
+                        showLoading(false)
                         showMessage(getString(R.string.fol_empty, "following"))
                     }
                 }
@@ -127,7 +128,7 @@ class FollowFragment : Fragment() {
         binding.apply {
             tvMessage.text = text
             tvMessage.visibility = View.VISIBLE
-            rvUsers.visibility = View.INVISIBLE
+            rvUsers.visibility = View.GONE
         }
     }
 
@@ -135,7 +136,7 @@ class FollowFragment : Fragment() {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
         } else {
-            binding.progressBar.visibility = View.INVISIBLE
+            binding.progressBar.visibility = View.GONE
         }
     }
 

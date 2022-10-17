@@ -178,11 +178,11 @@ class MainActivity : AppCompatActivity() {
         if (isShowMessage) {
             binding.apply {
                 tvMessage.visibility = View.VISIBLE
-                rvList.visibility = View.INVISIBLE
+                rvList.visibility = View.GONE
             }
         } else {
             binding.apply {
-                tvMessage.visibility = View.INVISIBLE
+                tvMessage.visibility = View.GONE
                 rvList.visibility = View.VISIBLE
             }
         }
@@ -192,12 +192,12 @@ class MainActivity : AppCompatActivity() {
         if (isLoading) {
             binding.apply {
                 progressBar.visibility = View.VISIBLE
-                tvMessage.visibility = View.INVISIBLE
-                rvList.visibility = View.INVISIBLE
+                tvMessage.visibility = View.GONE
+                rvList.visibility = View.GONE
             }
         } else {
             binding.apply {
-                progressBar.visibility = View.INVISIBLE
+                progressBar.visibility = View.GONE
                 tvMessage.visibility = View.VISIBLE
                 rvList.visibility = View.VISIBLE
             }

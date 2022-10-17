@@ -89,12 +89,12 @@ class FavoriteActivity : AppCompatActivity() {
         if (isLoading) {
             binding.apply {
                 progressBar.visibility = View.VISIBLE
-                tvMessage.visibility = View.INVISIBLE
-                rvFavoriteUser.visibility = View.INVISIBLE
+                tvMessage.visibility = View.GONE
+                rvFavoriteUser.visibility = View.GONE
             }
         } else {
             binding.apply {
-                progressBar.visibility = View.INVISIBLE
+                progressBar.visibility = View.GONE
                 tvMessage.visibility = View.VISIBLE
                 rvFavoriteUser.visibility = View.VISIBLE
             }
@@ -105,11 +105,11 @@ class FavoriteActivity : AppCompatActivity() {
         if (isShowMessage) {
             binding.apply {
                 tvMessage.visibility = View.VISIBLE
-                rvFavoriteUser.visibility = View.INVISIBLE
+                rvFavoriteUser.visibility = View.GONE
             }
         } else {
             binding.apply {
-                tvMessage.visibility = View.INVISIBLE
+                tvMessage.visibility = View.GONE
                 rvFavoriteUser.visibility = View.VISIBLE
             }
         }
