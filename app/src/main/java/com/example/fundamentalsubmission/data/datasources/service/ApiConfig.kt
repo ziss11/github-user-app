@@ -1,6 +1,7 @@
 package com.example.fundamentalsubmission.data.datasources.service
 
 import androidx.viewbinding.BuildConfig
+import com.example.fundamentalsubmission.utilities.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,10 +15,18 @@ object ApiConfig {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
         }
 
-        val client = OkHttpClient.Builder().addInterceptor(loggingInterceptor).build()
+        val tokenInterceptor = TokenInterceptor()
 
-        val retrofit = Retrofit.Builder().baseUrl("https://api.github.com/")
-            .addConverterFactory(GsonConverterFactory.create()).client(client).build()
+        val client = OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(tokenInterceptor)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl("https://api.github.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
 
         return retrofit.create(ApiService::class.java)
     }

@@ -14,11 +14,12 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "API_TOKEN", '"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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"')
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding true
     }
 

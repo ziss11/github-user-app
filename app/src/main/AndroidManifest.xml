@@ -23,10 +23,9 @@
         <activity
             android:name=".presentation.ui.activity.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.GithubUser.NoActionBar">
+            android:theme="@style/Theme.RemoveSplashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
