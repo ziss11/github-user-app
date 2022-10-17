@@ -2,12 +2,14 @@ package com.example.fundamentalsubmission
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.widget.SearchView
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -98,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun getThemeData(){
+    private fun getThemeData() {
         mainViewModel.getThemeSetting().observe(this) {
             Log.d("Test", it.toString())
             themeMode = it
@@ -110,6 +112,9 @@ class MainActivity : AppCompatActivity() {
                 1 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
+                2 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                }
             }
         }
     }
@@ -118,36 +123,14 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.choose_theme))
 
-        val items = arrayOf("Light", "Dark")
+        val items = arrayOf("Light", "Dark", "SystemDefault")
 
         builder.setSingleChoiceItems(items, themeMode) { dialog, itemId ->
-            when (itemId) {
-                0 -> {
-                    mainViewModel.saveThemeSetting(itemId)
-                    dialog.dismiss()
-                }
-                1 -> {
-                    mainViewModel.saveThemeSetting(itemId)
-                    dialog.dismiss()
-                }
-            }
+            mainViewModel.saveThemeSetting(itemId)
+            dialog.dismiss()
         }
         builder.create().show()
     }
-
-//    private fun checkTheme() {
-//        mainViewModel.getThemeSetting().observe(this) {
-//            if (it) {
-//                Log.d("Tema", "TEMA GELAP")
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-//                isDarkTheme = true
-//            } else {
-//                Log.d("Tema", "TEMA TERANG")
-//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-//                isDarkTheme = false
-//            }
-//        }
-//    }
 
     private fun fetchUsers() {
         mainViewModel.fetchUsers().observe(this) { result ->
@@ -224,9 +207,5 @@ class MainActivity : AppCompatActivity() {
                 rvList.visibility = View.VISIBLE
             }
         }
-    }
-
-    companion object {
-        private var themeState = 0;
     }
 }
