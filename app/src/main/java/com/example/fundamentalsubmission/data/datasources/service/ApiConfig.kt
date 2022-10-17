@@ -1,6 +1,7 @@
 package com.example.fundamentalsubmission.data.datasources.service
 
 import androidx.viewbinding.BuildConfig
+import com.example.fundamentalsubmission.utilities.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -14,11 +15,11 @@ object ApiConfig {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
         }
 
-//        val tokenInterceptor = TokenInterceptor()
+        val tokenInterceptor = TokenInterceptor()
 
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
-//            .addInterceptor(tokenInterceptor)
+            .addInterceptor(tokenInterceptor)
             .build()
 
         val retrofit = Retrofit.Builder()

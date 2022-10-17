@@ -104,6 +104,7 @@ class DetailActivity : AppCompatActivity() {
                 }
                 is ResultState.Success -> {
                     showLoading(false)
+                    showMessage(false)
                     userData = result.data
                     setUserData(userData)
                 }
