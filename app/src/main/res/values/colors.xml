@@ -3,10 +3,7 @@
     <color name="blue">#FF0984e3</color>
     <color name="lightBlue">#FF74b9ff</color>
     <color name="grey">#FFb2bec3</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF2d3436</color>
-    <color name="lightBlack">#A12d3436</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF24292e</color>
+    <color name="lightBlack">#FF2b3137</color>
+    <color name="white">#FFfafafa</color>
 </resources>
