@@ -2,7 +2,6 @@ package com.example.fundamentalsubmission
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -111,9 +110,6 @@ class MainActivity : AppCompatActivity() {
                 1 -> {
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 }
-                2 -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
-                }
             }
         }
     }
@@ -122,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         val builder = AlertDialog.Builder(this)
         builder.setTitle(getString(R.string.choose_theme))
 
-        val items = arrayOf("Light", "Dark", "System Default")
+        val items = arrayOf("Light", "Dark")
 
         builder.setSingleChoiceItems(items, themeMode) { dialog, itemId ->
             mainViewModel.saveThemeSetting(itemId)

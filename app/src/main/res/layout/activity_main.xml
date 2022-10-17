@@ -39,11 +39,11 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/edit_text_background"
         android:focusable="false"
-        android:elevation="4dp"
         app:iconifiedByDefault="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:queryBackground="@android:color/transparent"
         app:queryHint="@string/search_hint" />
 
     <androidx.recyclerview.widget.RecyclerView
