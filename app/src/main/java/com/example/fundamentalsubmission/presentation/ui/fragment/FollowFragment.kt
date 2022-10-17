@@ -26,6 +26,9 @@ class FollowFragment : Fragment() {
 
     private val detailViewModel: DetailViewModel by viewModels { factory }
 
+    private var index: Int = 0
+    private var username: String? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,9 +56,12 @@ class FollowFragment : Fragment() {
             addItemDecoration(itemDecoration)
         }
 
-        val index = arguments?.getInt(ARG_SECTION_NUMBER, 0)
-        val username = arguments?.getString(EXTRA_USERNAME)
+        index = arguments?.getInt(ARG_SECTION_NUMBER, 0) as Int
+        username = arguments?.getString(EXTRA_USERNAME)
+    }
 
+    override fun onStart() {
+        super.onStart()
         if (index == 1) {
             getFollowers(username!!)
         } else if (index == 2) {
