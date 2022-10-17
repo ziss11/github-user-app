@@ -1,11 +1,11 @@
 package com.example.fundamentalsubmission.utilities
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.fundamentalsubmission.data.models.UserEntity
+import com.example.fundamentalsubmission.data.models.UserModel
 
 class UserDIffCallback(
-    private val oldItemList: List<UserEntity>,
-    private val newItemList: List<UserEntity>,
+    private val oldItemList: List<UserModel>,
+    private val newItemList: List<UserModel>,
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int {
         return oldItemList.size

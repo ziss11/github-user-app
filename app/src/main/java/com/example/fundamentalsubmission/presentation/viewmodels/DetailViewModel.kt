@@ -20,7 +20,7 @@ class DetailViewModel(val userRepository: UserRepository) : ViewModel() {
 
         viewModelScope.launch {
             val userList = userRepository.getFavoriteByUsername(username)
-            result.postValue(userList.value?.isNotEmpty() ?: false)
+            result.postValue(userList.value?.first() != null)
         }
 
         return result

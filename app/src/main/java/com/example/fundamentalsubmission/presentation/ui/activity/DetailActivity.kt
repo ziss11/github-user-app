@@ -2,12 +2,12 @@ package com.example.fundamentalsubmission.presentation.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
@@ -24,6 +24,11 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var factory: ViewModelFactory
     private val viewModel: DetailViewModel by viewModels { factory }
 
+    private var username: String? = null
+    private var userData: UserModel? = null
+
+    private var menu: Menu? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -34,10 +39,10 @@ class DetailActivity : AppCompatActivity() {
 
         factory = ViewModelFactory.getInstance(this)
 
-        val username = intent.getStringExtra(EXTRA_USERNAME)
+        username = intent.getStringExtra(EXTRA_USERNAME) as String
         getUserDetails(username!!)
 
-        val sectionsPageAdapter = SectionsPageAdapter(this, username)
+        val sectionsPageAdapter = SectionsPageAdapter(this, username!!)
         binding.viewPager.adapter = sectionsPageAdapter
 
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
@@ -45,9 +50,32 @@ class DetailActivity : AppCompatActivity() {
         }.attach()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.detail_menu, menu)
+        this.menu = menu
+        return super.onCreateOptionsMenu(menu)
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
+        when (item.itemId) {
+            R.id.favorite_action -> {
+                viewModel.isFavoriteUser(username!!).observe(this) {
+                    if (it) {
+                        menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_favorite_border
+                        )
+                        viewModel.removeFromFavorite(username!!)
+                    } else {
+                        menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                            this,
+                            R.drawable.ic_favorite_border
+                        )
+                        viewModel.addToFavorite(userData!!)
+                    }
+                }
+            }
+            android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -55,7 +83,8 @@ class DetailActivity : AppCompatActivity() {
     private fun getUserDetails(username: String) {
         viewModel.getDetailUser(username).observe(this) { result ->
             if (result is ResultState.Success) {
-                setUserData(result.data)
+                userData = result.data
+                setUserData(userData)
             }
         }
     }

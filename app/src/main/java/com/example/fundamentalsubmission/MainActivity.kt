@@ -14,7 +14,6 @@ import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.ui.activity.FavoriteActivity
-import com.example.fundamentalsubmission.presentation.viewmodels.FavoriteViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
 import com.example.fundamentalsubmission.utilities.ResultState
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
         factory = ViewModelFactory.getInstance(this)
         fetchUsers()
-
 
         val layout = LinearLayoutManager(this)
         val itemDecoration = DividerItemDecoration(this, layout.orientation)

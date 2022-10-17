@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fundamentalsubmission.databinding.ItemUserBinding
-import com.example.fundamentalsubmission.data.models.UserEntity
+import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.utilities.UserDIffCallback
 import com.example.fundamentalsubmission.utilities.loadImage
 
@@ -14,9 +14,9 @@ class UserAdapter(
 ) :
     RecyclerView.Adapter<UserAdapter.ListViewHolder>() {
 
-    private val listUser = ArrayList<UserEntity>()
+    private val listUser = ArrayList<UserModel>()
 
-    fun setListUsers(listUser: List<UserEntity>) {
+    fun setListUsers(listUser: List<UserModel>) {
         val diffCallback = UserDIffCallback(this.listUser, listUser)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         this.listUser.clear()
@@ -28,7 +28,7 @@ class UserAdapter(
         private val binding: ItemUserBinding,
         private val onItemClickCallback: OnItemClickCallback,
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(user: UserEntity) {
+        fun bind(user: UserModel) {
             binding.apply {
                 userAvatar.loadImage(user.avatar)
                 tvUserUname.text = user.username
@@ -54,6 +54,6 @@ class UserAdapter(
     }
 
     interface OnItemClickCallback {
-        fun onItemClicked(user: UserEntity)
+        fun onItemClicked(user: UserModel)
     }
 }
