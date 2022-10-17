@@ -135,7 +135,6 @@ class MainActivity : AppCompatActivity() {
                 }
                 is ResultState.Success -> {
                     if (result.data.isNotEmpty()) {
-
                         showLoading(false)
                         showMessage(false)
                         userAdapter.setListUsers(result.data)
@@ -145,6 +144,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 is ResultState.Error -> {
+                    showLoading(false)
                     showMessage(true)
                 }
             }

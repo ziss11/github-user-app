@@ -1,10 +1,10 @@
 package com.example.fundamentalsubmission.presentation.ui.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +14,6 @@ import com.example.fundamentalsubmission.databinding.FragmentFolllowBinding
 import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.viewmodels.DetailViewModel
-import com.example.fundamentalsubmission.presentation.viewmodels.FavoriteViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
 import com.example.fundamentalsubmission.utilities.ResultState
 
@@ -86,6 +85,7 @@ class FollowFragment : Fragment() {
                         }
                     }
                     is ResultState.Error -> {
+                        showLoading(false)
                         showMessage(getString(R.string.fol_empty, "followers"))
                     }
                 }

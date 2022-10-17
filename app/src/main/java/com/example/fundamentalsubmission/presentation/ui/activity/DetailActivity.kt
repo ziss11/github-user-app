@@ -3,7 +3,6 @@ package com.example.fundamentalsubmission.presentation.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -43,7 +42,6 @@ class DetailActivity : AppCompatActivity() {
         factory = ViewModelFactory.getInstance(this, dataStore)
 
         username = intent.getStringExtra(EXTRA_USERNAME) as String
-        getUserDetails(username!!)
 
         val sectionsPageAdapter = SectionsPageAdapter(this, username!!)
         binding.viewPager.adapter = sectionsPageAdapter
@@ -51,6 +49,11 @@ class DetailActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             tab.text = getString(TAB_TITLES[position])
         }.attach()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        getUserDetails(username!!)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -70,7 +73,7 @@ class DetailActivity : AppCompatActivity() {
                     viewModel.addToFavorite(userData!!)
                 }
             }
-            android.R.id.home -> finish()
+            android.R.id.home -> finishAndRemoveTask()
         }
         return super.onOptionsItemSelected(item)
     }

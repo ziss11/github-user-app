@@ -1,11 +1,13 @@
 package com.example.fundamentalsubmission.data.datasources.service
 
+import com.example.fundamentalsubmission.BuildConfig
 import com.example.fundamentalsubmission.data.models.SearchUserResponse
 import com.example.fundamentalsubmission.data.models.UserModel
 import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiService {
+    @Headers("Authorization: ${BuildConfig.API_TOKEN}")
     @GET("users")
     fun getUsers(): Call<List<UserModel>>
 

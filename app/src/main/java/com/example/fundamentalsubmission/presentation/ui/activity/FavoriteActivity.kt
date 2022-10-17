@@ -71,6 +71,7 @@ class FavoriteActivity : AppCompatActivity() {
                     }
                 }
                 is ResultState.Error -> {
+                    showLoading(false)
                     showMessage(true)
                 }
             }
