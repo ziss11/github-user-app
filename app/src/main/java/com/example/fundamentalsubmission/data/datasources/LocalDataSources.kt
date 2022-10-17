@@ -14,7 +14,7 @@ interface LocalDataSources {
     fun getFavoriteUsers(): LiveData<ResultState<List<UserEntity>>>
     suspend fun insertUser(user: UserEntity)
     suspend fun deleteUser(username: String)
-    fun getUserByUsername(username: String): LiveData<List<UserEntity>>
+    fun checkFavorite(username: String): LiveData<Boolean>
 }
 
 class LocalDataSourcesImpl private constructor(private val userDao: UserDao) : LocalDataSources {
@@ -41,11 +41,9 @@ class LocalDataSourcesImpl private constructor(private val userDao: UserDao) : L
         userDao.deleteUser(username)
     }
 
-    override fun getUserByUsername(username: String): LiveData<List<UserEntity>> = liveData {
-        val response = userDao.getFavoriteUserWithUsername(username)
-        val userList: LiveData<List<UserEntity>> = response.map { it }
-
-        emitSource(userList)
+    override fun checkFavorite(username: String): LiveData<Boolean> = liveData {
+        val response = userDao.isFavorite(username)
+        emitSource(response)
     }
 
     companion object {

@@ -26,6 +26,7 @@ class DetailActivity : AppCompatActivity() {
 
     private var username: String? = null
     private var userData: UserModel? = null
+    private var isFavorite: Boolean = false
 
     private var menu: Menu? = null
 
@@ -53,26 +54,32 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.detail_menu, menu)
         this.menu = menu
+
+        viewModel.isFavoriteUser(username!!).observe(this) {
+            if (it) {
+                isFavorite = it
+                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_favorite
+                )
+            } else {
+                isFavorite = it
+                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_favorite_border
+                )
+            }
+        }
         return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.favorite_action -> {
-                viewModel.isFavoriteUser(username!!).observe(this) {
-                    if (it) {
-                        menu?.getItem(0)?.icon = ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_favorite_border
-                        )
-                        viewModel.removeFromFavorite(username!!)
-                    } else {
-                        menu?.getItem(0)?.icon = ContextCompat.getDrawable(
-                            this,
-                            R.drawable.ic_favorite_border
-                        )
-                        viewModel.addToFavorite(userData!!)
-                    }
+            R.id.set_favorite_action -> {
+                if (isFavorite) {
+                    viewModel.removeFromFavorite(username!!)
+                } else {
+                    viewModel.addToFavorite(userData!!)
                 }
             }
             android.R.id.home -> finish()
