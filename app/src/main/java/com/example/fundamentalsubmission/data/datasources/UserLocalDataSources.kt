@@ -10,14 +10,14 @@ import com.example.fundamentalsubmission.data.datasources.database.UserDao
 import com.example.fundamentalsubmission.data.models.UserEntity
 import com.example.fundamentalsubmission.utilities.ResultState
 
-interface LocalDataSources {
+interface UserLocalDataSources {
     fun getFavoriteUsers(): LiveData<ResultState<List<UserEntity>>>
     suspend fun insertUser(user: UserEntity)
     suspend fun deleteUser(username: String)
     fun checkFavorite(username: String): LiveData<Boolean>
 }
 
-class LocalDataSourcesImpl private constructor(private val userDao: UserDao) : LocalDataSources {
+class UserLocalDataSourcesImpl private constructor(private val userDao: UserDao) : UserLocalDataSources {
     override fun getFavoriteUsers(): LiveData<ResultState<List<UserEntity>>> = liveData {
         emit(ResultState.Loading)
 
@@ -47,12 +47,15 @@ class LocalDataSourcesImpl private constructor(private val userDao: UserDao) : L
     }
 
     companion object {
-        private var TAG = LocalDataSources::class.java.simpleName
+        private var TAG = UserLocalDataSourcesImpl::class.java.simpleName
 
-        private var instance: LocalDataSourcesImpl? = null
+        private var instance: UserLocalDataSourcesImpl? = null
 
-        fun getInstance(context: Context) = instance ?: synchronized(this) {
-            instance ?: LocalDataSourcesImpl(provideUserDao(context))
-        }.also { instance = it }
+        fun getInstance(context: Context) =
+            instance ?: synchronized(this) {
+                instance ?: UserLocalDataSourcesImpl(
+                    provideUserDao(context)
+                )
+            }.also { instance = it }
     }
 }

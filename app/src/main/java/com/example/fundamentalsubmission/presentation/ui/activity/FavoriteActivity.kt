@@ -2,15 +2,16 @@ package com.example.fundamentalsubmission.presentation.ui.activity
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
+import com.example.fundamentalsubmission.dataStore
 import com.example.fundamentalsubmission.databinding.ActivityFavoriteBinding
 import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
 import com.example.fundamentalsubmission.presentation.viewmodels.FavoriteViewModel
@@ -33,7 +34,7 @@ class FavoriteActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0F
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        factory = ViewModelFactory.getInstance(this)
+        factory = ViewModelFactory.getInstance(this, dataStore)
         fetchFavoriteUsers()
 
         val layout = LinearLayoutManager(this)

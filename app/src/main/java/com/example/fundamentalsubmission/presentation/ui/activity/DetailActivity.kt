@@ -3,6 +3,7 @@ package com.example.fundamentalsubmission.presentation.ui.activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.fundamentalsubmission.R
 import com.example.fundamentalsubmission.data.models.UserModel
+import com.example.fundamentalsubmission.dataStore
 import com.example.fundamentalsubmission.databinding.ActivityDetailBinding
 import com.example.fundamentalsubmission.presentation.adapters.SectionsPageAdapter
 import com.example.fundamentalsubmission.presentation.viewmodels.DetailViewModel
@@ -26,7 +28,7 @@ class DetailActivity : AppCompatActivity() {
 
     private var username: String? = null
     private var userData: UserModel? = null
-    private var isFavorite: Boolean = false
+    private var isFavorite = false
 
     private var menu: Menu? = null
 
@@ -38,7 +40,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0F
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        factory = ViewModelFactory.getInstance(this)
+        factory = ViewModelFactory.getInstance(this, dataStore)
 
         username = intent.getStringExtra(EXTRA_USERNAME) as String
         getUserDetails(username!!)
@@ -55,21 +57,7 @@ class DetailActivity : AppCompatActivity() {
         menuInflater.inflate(R.menu.detail_menu, menu)
         this.menu = menu
 
-        viewModel.isFavoriteUser(username!!).observe(this) {
-            if (it) {
-                isFavorite = it
-                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_favorite
-                )
-            } else {
-                isFavorite = it
-                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_favorite_border
-                )
-            }
-        }
+        checkFavorite()
         return super.onCreateOptionsMenu(menu)
     }
 
@@ -85,6 +73,24 @@ class DetailActivity : AppCompatActivity() {
             android.R.id.home -> finish()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun checkFavorite() {
+        viewModel.isFavoriteUser(username!!).observe(this) {
+            if (it) {
+                isFavorite = it
+                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_favorite
+                )
+            } else {
+                isFavorite = it
+                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                    this,
+                    R.drawable.ic_favorite_border
+                )
+            }
+        }
     }
 
     private fun getUserDetails(username: String) {

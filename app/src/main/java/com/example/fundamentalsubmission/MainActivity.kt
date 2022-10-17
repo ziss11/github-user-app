@@ -1,23 +1,30 @@
 package com.example.fundamentalsubmission
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
-import com.example.fundamentalsubmission.databinding.ActivityMainBinding
 import com.example.fundamentalsubmission.data.models.UserModel
+import com.example.fundamentalsubmission.databinding.ActivityMainBinding
+import com.example.fundamentalsubmission.presentation.adapters.UserAdapter
 import com.example.fundamentalsubmission.presentation.ui.activity.DetailActivity
 import com.example.fundamentalsubmission.presentation.ui.activity.FavoriteActivity
 import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
 import com.example.fundamentalsubmission.presentation.viewmodels.ViewModelFactory
 import com.example.fundamentalsubmission.utilities.ResultState
 import kotlinx.coroutines.*
+
+val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -26,13 +33,16 @@ class MainActivity : AppCompatActivity() {
 
     private val mainViewModel: MainViewModel by viewModels { factory }
 
+    private var themeMode = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.title = getString(R.string.search_users)
 
-        factory = ViewModelFactory.getInstance(this)
+        factory = ViewModelFactory.getInstance(this, dataStore)
+        getThemeData()
         fetchUsers()
 
         val layout = LinearLayoutManager(this)
@@ -82,11 +92,62 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.theme_action -> {}
+            R.id.setting_action -> chooseThemeDialog()
             R.id.favorite_action -> FavoriteActivity.start(this)
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun getThemeData(){
+        mainViewModel.getThemeSetting().observe(this) {
+            Log.d("Test", it.toString())
+            themeMode = it
+
+            when (it) {
+                0 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                }
+                1 -> {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                }
+            }
+        }
+    }
+
+    private fun chooseThemeDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(getString(R.string.choose_theme))
+
+        val items = arrayOf("Light", "Dark")
+
+        builder.setSingleChoiceItems(items, themeMode) { dialog, itemId ->
+            when (itemId) {
+                0 -> {
+                    mainViewModel.saveThemeSetting(itemId)
+                    dialog.dismiss()
+                }
+                1 -> {
+                    mainViewModel.saveThemeSetting(itemId)
+                    dialog.dismiss()
+                }
+            }
+        }
+        builder.create().show()
+    }
+
+//    private fun checkTheme() {
+//        mainViewModel.getThemeSetting().observe(this) {
+//            if (it) {
+//                Log.d("Tema", "TEMA GELAP")
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+//                isDarkTheme = true
+//            } else {
+//                Log.d("Tema", "TEMA TERANG")
+//                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+//                isDarkTheme = false
+//            }
+//        }
+//    }
 
     private fun fetchUsers() {
         mainViewModel.fetchUsers().observe(this) { result ->
@@ -163,5 +224,9 @@ class MainActivity : AppCompatActivity() {
                 rvList.visibility = View.VISIBLE
             }
         }
+    }
+
+    companion object {
+        private var themeState = 0;
     }
 }

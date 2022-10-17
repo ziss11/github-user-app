@@ -12,7 +12,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-interface RemoteDataSources {
+interface UserRemoteDataSources {
     fun getUsers(): LiveData<ResultState<List<UserModel>>>
     fun getSearchedUsers(query: String): LiveData<ResultState<List<UserModel>>>
     fun getUserByUsername(username: String): LiveData<ResultState<UserModel>>
@@ -20,8 +20,8 @@ interface RemoteDataSources {
     fun fetchUserFollowing(username: String): LiveData<ResultState<List<UserModel>>>
 }
 
-class RemoteDataSourcesImpl private constructor(private val apiService: ApiService) :
-    RemoteDataSources {
+class UserRemoteDataSourcesImpl private constructor(private val apiService: ApiService) :
+    UserRemoteDataSources {
     private val usersResult = MediatorLiveData<ResultState<List<UserModel>>>()
     private val searchedUsersResult = MediatorLiveData<ResultState<List<UserModel>>>()
     private val userDetailResult = MediatorLiveData<ResultState<UserModel>>()
@@ -169,14 +169,14 @@ class RemoteDataSourcesImpl private constructor(private val apiService: ApiServi
     }
 
     companion object {
-        private var TAG = RemoteDataSources::class.java.simpleName
+        private var TAG = UserRemoteDataSourcesImpl::class.java.simpleName
         private const val FOLLOWERS = "followers"
         private const val FOLLOWING = "following"
 
-        private var instance: RemoteDataSourcesImpl? = null
+        private var instance: UserRemoteDataSourcesImpl? = null
 
         fun getInstance() = instance ?: synchronized(this) {
-            instance ?: RemoteDataSourcesImpl(provideApiService())
+            instance ?: UserRemoteDataSourcesImpl(provideApiService())
         }.also { instance = it }
     }
 }

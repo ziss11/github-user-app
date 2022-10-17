@@ -3,14 +3,14 @@ package com.example.fundamentalsubmission.data.repositories
 import android.content.Context
 import com.example.fundamentalsubmission.Injection.provideLocalDataSources
 import com.example.fundamentalsubmission.Injection.provideRemoteDataSources
-import com.example.fundamentalsubmission.data.datasources.LocalDataSources
-import com.example.fundamentalsubmission.data.datasources.RemoteDataSources
+import com.example.fundamentalsubmission.data.datasources.UserLocalDataSources
+import com.example.fundamentalsubmission.data.datasources.UserRemoteDataSources
 import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.utilities.toEntity
 
 class UserRepository private constructor(
-    private val remoteDataSources: RemoteDataSources,
-    private val localDataSources: LocalDataSources
+    private val remoteDataSources: UserRemoteDataSources,
+    private val localDataSources: UserLocalDataSources
 ) {
     fun fetchUsers() = remoteDataSources.getUsers()
 
