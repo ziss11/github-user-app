@@ -1,4 +1,4 @@
-package com.example.fundamentalsubmission.presentation.viewmodels.dummy_data
+package com.example.fundamentalsubmission.dummy_data
 
 import androidx.lifecycle.MutableLiveData
 import com.example.fundamentalsubmission.data.models.UserEntity

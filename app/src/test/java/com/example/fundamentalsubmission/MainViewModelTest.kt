@@ -1,9 +1,10 @@
-package com.example.fundamentalsubmission.presentation.viewmodels
+package com.example.fundamentalsubmission
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.fundamentalsubmission.data.repositories.SettingRepository
 import com.example.fundamentalsubmission.data.repositories.UserRepository
-import com.example.fundamentalsubmission.presentation.viewmodels.dummy_data.DummyObject
+import com.example.fundamentalsubmission.dummy_data.DummyObject
+import com.example.fundamentalsubmission.presentation.viewmodels.MainViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch

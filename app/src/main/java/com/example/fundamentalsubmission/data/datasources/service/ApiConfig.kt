@@ -16,7 +16,6 @@ object ApiConfig {
         }
 
         val tokenInterceptor = TokenInterceptor()
-
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(tokenInterceptor)

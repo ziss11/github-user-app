@@ -4,9 +4,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import com.example.fundamentalsubmission.Injection.provideApiService
-import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.data.datasources.service.ApiService
 import com.example.fundamentalsubmission.data.models.SearchUserResponse
+import com.example.fundamentalsubmission.data.models.UserModel
 import com.example.fundamentalsubmission.utilities.ResultState
 import retrofit2.Call
 import retrofit2.Callback
