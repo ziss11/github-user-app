@@ -1,6 +1,6 @@
 package com.example.fundamentalsubmission.data.datasources.service
 
-import androidx.viewbinding.BuildConfig
+import com.example.fundamentalsubmission.BuildConfig
 import com.example.fundamentalsubmission.utilities.TokenInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,7 +22,7 @@ object ApiConfig {
             .build()
 
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://api.github.com/")
+            .baseUrl(BuildConfig.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

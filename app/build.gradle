@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -16,7 +17,6 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_TOKEN", '"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"')
     }
     buildFeatures {
         viewBinding true

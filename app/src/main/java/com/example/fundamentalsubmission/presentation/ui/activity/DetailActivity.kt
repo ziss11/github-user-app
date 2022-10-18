@@ -53,7 +53,7 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        getUserDetails(username!!)
+        username?.let { getUserDetails(it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -68,9 +68,13 @@ class DetailActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.set_favorite_action -> {
                 if (isFavorite) {
-                    viewModel.removeFromFavorite(username!!)
+                    username?.let {
+                        viewModel.removeFromFavorite(username!!)
+                    }
                 } else {
-                    viewModel.addToFavorite(userData!!)
+                    username?.let {
+                        viewModel.addToFavorite(userData!!)
+                    }
                 }
             }
             android.R.id.home -> finishAndRemoveTask()
@@ -79,19 +83,21 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun checkFavorite() {
-        viewModel.isFavoriteUser(username!!).observe(this) {
-            if (it) {
-                isFavorite = it
-                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_favorite
-                )
-            } else {
-                isFavorite = it
-                menu?.getItem(0)?.icon = ContextCompat.getDrawable(
-                    this,
-                    R.drawable.ic_favorite_border
-                )
+        username?.let { username ->
+            viewModel.isFavoriteUser(username).observe(this) {
+                if (it) {
+                    isFavorite = it
+                    menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.ic_favorite
+                    )
+                } else {
+                    isFavorite = it
+                    menu?.getItem(0)?.icon = ContextCompat.getDrawable(
+                        this,
+                        R.drawable.ic_favorite_border
+                    )
+                }
             }
         }
     }
