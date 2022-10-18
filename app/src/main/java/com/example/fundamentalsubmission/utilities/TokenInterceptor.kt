@@ -4,11 +4,11 @@ import com.example.fundamentalsubmission.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class TokenInterceptor: Interceptor {
+class TokenInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
             .newBuilder()
-            .header("Authorization", BuildConfig.API_TOKEN)
+            .header("Authorization", "token ${BuildConfig.API_TOKEN}")
             .build()
         return chain.proceed(request)
     }

@@ -16,7 +16,7 @@ android {
         versionName "1.0"
         vectorDrawables.useSupportLibrary true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "API_TOKEN", '"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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"')
+        buildConfigField("String", "API_TOKEN", '"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"')
     }
     buildFeatures {
         viewBinding true
