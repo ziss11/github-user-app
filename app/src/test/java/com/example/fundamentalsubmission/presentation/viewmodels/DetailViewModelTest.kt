@@ -24,7 +24,7 @@ class DetailViewModelTest {
     private lateinit var userRepository: UserRepository
     private lateinit var detailViewModel: DetailViewModel
 
-    val username = "ziszz"
+    private val username = "ziszz"
 
     @Before
     fun setup() {

@@ -20,7 +20,7 @@ object DummyObject {
     )
     private val dummyUserEntity = UserEntity(
         id = 0,
-        username = "userrname",
+        username = "username",
         avatar = "avatar",
     )
     private val dummyResultListUserModel = ResultState.Success(
@@ -29,7 +29,7 @@ object DummyObject {
     private val dummyResultListUserEntity = ResultState.Success(
         listOf(dummyUserEntity)
     )
-    val dummyIsFavoriteUser =MutableLiveData<Boolean>().apply {
+    val dummyIsFavoriteUser = MutableLiveData<Boolean>().apply {
         value = true
     }
     val dummyResultUserModel = MutableLiveData<ResultState<UserModel>>().apply {
