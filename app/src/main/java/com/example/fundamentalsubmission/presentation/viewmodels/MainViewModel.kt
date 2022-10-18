@@ -1,8 +1,10 @@
 package com.example.fundamentalsubmission.presentation.viewmodels
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.fundamentalsubmission.data.repositories.SettingRepository
 import com.example.fundamentalsubmission.data.repositories.UserRepository
+import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val userRepository: UserRepository,
@@ -14,5 +16,9 @@ class MainViewModel(
 
     fun getThemeSetting() = settingRepository.getThemeSetting()
 
-    fun saveThemeSetting(themeMode: Int) = settingRepository.saveThemeSetting(themeMode)
+    fun saveThemeSetting(themeMode: Int) {
+        viewModelScope.launch {
+            settingRepository.saveThemeSetting(themeMode)
+        }
+    }
 }

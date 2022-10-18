@@ -4,12 +4,21 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.fundamentalsubmission.data.repositories.SettingRepository
 import com.example.fundamentalsubmission.data.repositories.UserRepository
 import com.example.fundamentalsubmission.presentation.viewmodels.dummy_data.DummyObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class MainViewModelTest {
     @get:Rule
     val executorRule = InstantTaskExecutorRule()
@@ -20,9 +29,16 @@ class MainViewModelTest {
 
     @Before
     fun setup() {
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+
         userRepository = mock(UserRepository::class.java)
         settingRepository = mock(SettingRepository::class.java)
         mainViewModel = MainViewModel(userRepository, settingRepository)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
@@ -53,9 +69,11 @@ class MainViewModelTest {
 
     @Test
     fun testMockSaveThemeSetting() {
-        `when`(settingRepository.saveThemeSetting(1)).thenReturn(DummyObject.dummySaveTheme)
-        val result = mainViewModel.saveThemeSetting(1)
-        verify(settingRepository).saveThemeSetting(1)
-        assertEquals(DummyObject.dummySaveTheme, result)
+        mainViewModel.saveThemeSetting(1)
+        runBlocking {
+            launch {
+                verify(settingRepository).saveThemeSetting(1)
+            }
+        }
     }
 }

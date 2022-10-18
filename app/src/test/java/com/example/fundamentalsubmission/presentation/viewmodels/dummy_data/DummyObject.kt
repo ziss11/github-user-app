@@ -29,15 +29,6 @@ object DummyObject {
     private val dummyResultListUserEntity = ResultState.Success(
         listOf(dummyUserEntity)
     )
-    val dummyAddFavoriteResponse =MutableLiveData<Boolean>().apply {
-        value = true
-    }
-    val dummyDeleteFavoriteResponse =MutableLiveData<Boolean>().apply {
-        value = true
-    }
-    val dummySaveTheme =MutableLiveData<Boolean>().apply {
-        value = true
-    }
     val dummyIsFavoriteUser =MutableLiveData<Boolean>().apply {
         value = true
     }

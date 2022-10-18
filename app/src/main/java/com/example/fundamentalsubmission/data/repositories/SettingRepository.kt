@@ -8,7 +8,9 @@ import com.example.fundamentalsubmission.data.datasources.SettingsDataSource
 class SettingRepository private constructor(private val dataSource: SettingsDataSource) {
     fun getThemeSetting() = dataSource.getThemeSetting()
 
-    fun saveThemeSetting(themeMode: Int) = dataSource.saveThemeSetting(themeMode)
+    suspend fun saveThemeSetting(themeMode: Int) {
+        dataSource.saveThemeSetting(themeMode)
+    }
 
     companion object {
         private var instance: SettingRepository? = null

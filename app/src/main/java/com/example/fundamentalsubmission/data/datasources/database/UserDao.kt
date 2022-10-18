@@ -16,8 +16,8 @@ interface UserDao {
     fun isFavorite(username: String): LiveData<Boolean>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertUser(user: UserEntity)
+    suspend fun insertUser(user: UserEntity)
 
     @Query("DELETE from user WHERE username=:username")
-    fun deleteUser(username: String)
+    suspend fun deleteUser(username: String)
 }

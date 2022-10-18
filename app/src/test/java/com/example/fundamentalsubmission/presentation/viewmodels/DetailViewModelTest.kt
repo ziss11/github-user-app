@@ -3,12 +3,20 @@ package com.example.fundamentalsubmission.presentation.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.fundamentalsubmission.data.repositories.UserRepository
 import com.example.fundamentalsubmission.presentation.viewmodels.dummy_data.DummyObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class DetailViewModelTest {
     @get:Rule
     val executorRule = InstantTaskExecutorRule()
@@ -20,8 +28,15 @@ class DetailViewModelTest {
 
     @Before
     fun setup() {
+        Dispatchers.setMain(UnconfinedTestDispatcher())
+
         userRepository = mock(UserRepository::class.java)
         detailViewModel = DetailViewModel(userRepository)
+    }
+
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
     }
 
     @Test
@@ -58,17 +73,18 @@ class DetailViewModelTest {
 
     @Test
     fun testMockAddToFavorite() {
-        `when`(userRepository.add2Favorite(DummyObject.dummyUserModel)).thenReturn(DummyObject.dummyAddFavoriteResponse)
-        val result = detailViewModel.addToFavorite(DummyObject.dummyUserModel)
-        verify(userRepository).add2Favorite(DummyObject.dummyUserModel)
-        assertEquals(DummyObject.dummyAddFavoriteResponse, result)
+        runBlocking {
+            `when`(userRepository.add2Favorite(DummyObject.dummyUserModel)).thenReturn(Unit)
+            detailViewModel.addToFavorite(DummyObject.dummyUserModel)
+            verify(userRepository).add2Favorite(DummyObject.dummyUserModel)
+        }
     }
 
     @Test
     fun testMockRemoveFromFavorite() {
-        `when`(userRepository.removeFromFavorite(username)).thenReturn(DummyObject.dummyDeleteFavoriteResponse)
-        val result = detailViewModel.removeFromFavorite(username)
-        verify(userRepository).removeFromFavorite(username)
-        assertEquals(DummyObject.dummyDeleteFavoriteResponse, result)
+        detailViewModel.removeFromFavorite(username)
+        runBlocking {
+            verify(userRepository).removeFromFavorite(username)
+        }
     }
 }
