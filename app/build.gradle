@@ -18,11 +18,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "API_TOKEN", '"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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"')
     }
-
     buildFeatures {
         viewBinding true
     }
-
     buildTypes {
         release {
             minifyEnabled false
@@ -61,6 +59,9 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.2'
     testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito:mockito-core:3.6.0'
+    testImplementation 'org.mockito:mockito-inline:3.6.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 

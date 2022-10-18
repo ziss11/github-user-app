@@ -12,12 +12,13 @@ import com.example.fundamentalsubmission.utilities.ResultState
 
 interface UserLocalDataSources {
     fun getFavoriteUsers(): LiveData<ResultState<List<UserEntity>>>
-    suspend fun insertUser(user: UserEntity)
-    suspend fun deleteUser(username: String)
+    fun insertUser(user: UserEntity): LiveData<Boolean>
+    fun deleteUser(username: String): LiveData<Boolean>
     fun checkFavorite(username: String): LiveData<Boolean>
 }
 
-class UserLocalDataSourcesImpl private constructor(private val userDao: UserDao) : UserLocalDataSources {
+class UserLocalDataSourcesImpl private constructor(private val userDao: UserDao) :
+    UserLocalDataSources {
     override fun getFavoriteUsers(): LiveData<ResultState<List<UserEntity>>> = liveData {
         emit(ResultState.Loading)
 
@@ -33,12 +34,22 @@ class UserLocalDataSourcesImpl private constructor(private val userDao: UserDao)
         }
     }
 
-    override suspend fun insertUser(user: UserEntity) {
-        userDao.insertUser(user)
+    override fun insertUser(user: UserEntity): LiveData<Boolean> = liveData {
+        try {
+            userDao.insertUser(user)
+            emit(true)
+        } catch (e: Exception) {
+            emit(false)
+        }
     }
 
-    override suspend fun deleteUser(username: String) {
-        userDao.deleteUser(username)
+    override fun deleteUser(username: String): LiveData<Boolean> = liveData {
+        try {
+            userDao.deleteUser(username)
+            emit(true)
+        } catch (e: Exception) {
+            emit(false)
+        }
     }
 
     override fun checkFavorite(username: String): LiveData<Boolean> = liveData {
